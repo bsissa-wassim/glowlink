@@ -1,0 +1,26 @@
+---
+import CareIcon from "./CareIcon.astro";
+---
+
+<section id="a-propos" aria-labelledby="about-heading" class="mx-auto max-w-5xl scroll-mt-8 px-4 py-12 sm:px-6 sm:py-16">
+  <div class="grid gap-2 md:grid-cols-2">
+    <article class="flex flex-col items-start bg-mint/30 p-6 sm:p-9">
+      <p class="text-xs font-medium tracking-[0.16em] text-emerald uppercase">À propos de GlowLink</p>
+      <h2 id="about-heading" class="mt-5 font-editorial text-3xl leading-[1.16] tracking-tight text-emerald-dark sm:text-4xl">L’expertise du soin, l’attention à la personne.</h2>
+      <p class="mt-5 text-sm leading-relaxed text-midnight/90">GlowLink est née d’une conviction : un voyage médical mérite un accompagnement qui considère autant le projet de soins que la personne qui le porte.</p>
+      <p class="mt-4 text-sm leading-relaxed text-midnight/90">Fondée par Cheima Kochbati, notre conciergerie réunit une expérience clinique internationale, une formation canadienne en gestion des services de santé et une approche profondément humaine.</p>
+      <a href="#fondatrice" class="mt-6 inline-flex min-h-11 items-center gap-3 text-sm font-medium text-emerald-dark hover:underline hover:underline-offset-4">Rencontrer la fondatrice <span aria-hidden="true">↗</span></a>
+    </article>
+
+    <article id="mission" aria-labelledby="mission-heading" class="flex scroll-mt-8 flex-col items-start bg-emerald-dark p-6 text-white sm:p-9">
+      <div class="flex w-full items-center justify-between gap-4">
+        <p class="text-xs font-medium tracking-[0.16em] text-mint uppercase">Notre mission</p>
+        <CareIcon name="leaf" class="size-7 text-mint" />
+      </div>
+      <h2 id="mission-heading" class="mt-5 font-editorial text-3xl leading-[1.16] tracking-tight sm:text-4xl">Préparer votre esprit, prendre soin de vous.</h2>
+      <p class="mt-5 text-sm leading-relaxed text-white">De votre domicile au Canada ou à l’international jusqu’à votre retour de Tunisie, nous associons la coordination de votre séjour à un accompagnement émotionnel et à des attentions de bien-être sur mesure.</p>
+      <p class="mt-4 text-sm leading-relaxed text-white">Vous aider à comprendre les étapes, accueillir vos questions et veiller à votre tranquillité d’esprit : c’est le sens de notre engagement.</p>
+      <a href="#parcours-patient" class="mt-6 inline-flex min-h-11 items-center gap-3 text-sm font-medium text-white hover:underline hover:underline-offset-4 focus-visible:outline-white">Découvrir l’accompagnement <span aria-hidden="true">↗</span></a>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,67 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+
+const publications = [
+  {
+    category: "Préparation & récupération",
+    title: "Stress avant une intervention : quelle place pour la préparation ?",
+    introduction: "La préparation d’une intervention concerne aussi le vécu émotionnel du patient.",
+    content: "Le NHS rappelle qu’une opération peut être éprouvante physiquement et émotionnellement. La relaxation fait partie d’une préparation plus globale, avec l’alimentation, l’activité adaptée et les échanges avec l’équipe soignante. Elle ne permet pas, à elle seule, de garantir une récupération plus rapide ou un résultat particulier.",
+    source: "NHS · Enhanced recovery",
+    href: "https://www.nhs.uk/tests-and-treatments/enhanced-recovery/",
+  },
+  {
+    category: "Connexion corps-esprit",
+    title: "Préparer aussi son mental avant un séjour de soins.",
+    introduction: "Mettre des mots sur ses appréhensions est déjà une façon de préparer son parcours.",
+    content: "Le Royal College of Anaesthetists présente la respiration, la pleine conscience et la visualisation comme des pistes pour mieux gérer l’anxiété autour d’une intervention. Chacun peut rechercher ce qui lui convient et en parler à son équipe médicale. Si l’anxiété demande davantage de soutien, celle-ci peut orienter vers un professionnel formé.",
+    source: "Royal College of Anaesthetists · Preparing your mind before surgery",
+    href: "https://www.rcoa.ac.uk/patients/patient-information-resources/preparing-your-mind-surgery",
+  },
+  {
+    category: "Détente & accompagnement",
+    title: "Massages légers : une détente à adapter à votre situation.",
+    introduction: "Un moment de bien-être se prépare lui aussi avec attention.",
+    content: "Le NCCIH rappelle que les massages ont des précautions et des risques qui varient selon la technique et l’état de santé. Avant un séjour médical, échangez avec votre équipe sur leur pertinence, les zones concernées et le moment adapté. Une prestation de confort complète l’accompagnement sans remplacer une consultation ni les soins prescrits.",
+    source: "NCCIH · Massage Therapy: What You Need To Know",
+    href: "https://www.nccih.nih.gov/health/massage-therapy-what-you-need-to-know",
+  },
+] as const;
+---
+
+<section id="publications" aria-labelledby="publications-heading" class="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
+  <SectionHeading id="publications-heading" eyebrow="Publication · Nos repères" title="Comprendre, pour avancer sereinement.">
+    <p>Préparation, bien-être et parcours patient : trois lectures courtes, accompagnées de ressources de référence pour approfondir.</p>
+  </SectionHeading>
+
+  <div class="mt-7 divide-y divide-mint">
+    {publications.map(({ category, title, introduction, content, source, href }, index) => (
+      <article class="py-6 sm:py-8">
+        <details class="group">
+          <summary class="publication-summary grid cursor-pointer list-none grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald sm:gap-7">
+            <span aria-hidden="true" class="pt-1 text-xs font-medium text-emerald">0{index + 1}</span>
+            <span>
+              <span class="mb-3 block text-xs font-medium tracking-[0.08em] text-emerald uppercase">{category}</span>
+              <h3 class="max-w-2xl font-editorial text-2xl leading-snug tracking-tight text-emerald-dark sm:text-3xl">{title}</h3>
+              <span class="mt-3 block max-w-2xl text-sm leading-relaxed text-midnight/90">{introduction}</span>
+              <span class="mt-4 block text-xs font-medium text-emerald-dark"><span class="group-open:hidden">Lire le repère</span><span class="hidden group-open:inline">Réduire</span></span>
+            </span>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" class="mt-1 size-5 text-emerald group-open:rotate-45 motion-safe:transition-transform">
+              <path d="M12 5v14M5 12h14" stroke-linecap="round" />
+            </svg>
+          </summary>
+          <div class="mt-5 max-w-2xl pl-8 sm:pl-11">
+            <p class="text-sm leading-relaxed text-midnight/90 sm:text-base">{content}</p>
+            <a href={href} class="mt-4 inline-flex min-h-11 items-center gap-2 text-xs leading-relaxed text-emerald-dark underline decoration-emerald/30 underline-offset-4 hover:decoration-emerald">
+              Source : {source} <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </details>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .publication-summary::-webkit-details-marker { display: none; }
+</style>

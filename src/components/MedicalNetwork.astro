@@ -1,0 +1,28 @@
+---
+import CareIcon from "./CareIcon.astro";
+
+const pillars = [
+  { icon: "shield", title: "Le praticien", text: "Son identité, sa spécialité, ses qualifications et son inscription à l’Ordre sont des repères essentiels à vérifier avant votre décision." },
+  { icon: "clinic", title: "L’établissement", text: "Le lieu de prise en charge, les conditions d’accueil et l’organisation des soins doivent être précisés avant de confirmer votre séjour." },
+  { icon: "conversation", title: "La continuité du suivi", text: "Les rendez-vous, les consignes et les contacts utiles après l’intervention se préparent avec l’équipe médicale, y compris pour votre retour." },
+] as const;
+---
+
+<section id="reseau-medical" aria-labelledby="network-heading" class="mx-auto max-w-5xl px-4 pt-3 pb-12 sm:px-6 sm:pb-16">
+  <div class="grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:gap-10">
+    <div>
+      <p class="mb-3 text-xs font-medium tracking-[0.16em] text-emerald uppercase">La Tunisie · Votre cadre de soins</p>
+      <h2 id="network-heading" class="max-w-[22ch] font-editorial text-3xl leading-[1.15] tracking-tight text-emerald-dark sm:text-4xl">Un parcours médical, des repères clairs.</h2>
+    </div>
+    <p class="text-sm leading-relaxed text-midnight/90 sm:text-base">Au-delà de la destination, votre choix repose sur des informations précises. Notre rôle de coordination vous aide à préparer vos échanges avec les professionnels de santé.</p>
+  </div>
+  <ul class="mt-8 grid gap-7 md:grid-cols-3 md:gap-10">
+    {pillars.map(({ icon, title, text }) => (
+      <li>
+        <CareIcon name={icon} class="mb-4 size-6 text-emerald" />
+        <h3 class="text-lg font-medium text-emerald-dark">{title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-midnight/90">{text}</p>
+      </li>
+    ))}
+  </ul>
+</section>

@@ -1,0 +1,385 @@
+---
+import InterventionSlide from "./InterventionSlide.astro";
+import { interventionCategories, interventionDetailPath, interventions } from "../data/interventions";
+import { interventionPhotos } from "../data/interventionPhotos";
+
+interface Props {
+  headingLevel?: "h1" | "h2";
+}
+
+const { headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const detailPages = new Set(
+  Object.keys(import.meta.glob("/src/pages/interventions/**/*.{astro,md,mdx}"))
+    .filter((file) => !file.includes("["))
+    .map((file) => file.replace(/^\/src\/pages/, "").replace(/(?:\/index)?\.(astro|md|mdx)$/, "")),
+);
+---
+
+<section id="interventions" data-interventions-carousel aria-labelledby="interventions-heading" class="interventions-carousel">
+  <header class="carousel-header">
+    <div class="max-w-2xl">
+      <p class="mb-4 text-xs font-medium tracking-[0.16em] text-emerald uppercase">Esthétique & réparatrice</p>
+      <Heading id="interventions-heading" class="carousel-title text-4xl leading-tight tracking-tight text-emerald-dark sm:text-5xl">Nos interventions</Heading>
+      <p class="mt-5 max-w-xl text-sm leading-relaxed text-midnight/90 sm:text-base">
+        Une sélection d’interventions esthétiques et réparatrices, accompagnées avec rigueur, discrétion et attention.
+      </p>
+    </div>
+    <nav data-carousel-tabs aria-label="Catégories d’interventions" class="carousel-tabs">
+      {interventionCategories.map(({ id, label }) => (
+        <a id={`carousel-tab-${id}`} href={`#interventions-${id}`} data-carousel-tab={id} class="carousel-tab">
+          {id === "reparatrice" ? "Chirurgie réparatrice" : label}
+        </a>
+      ))}
+    </nav>
+  </header>
+
+  {interventionCategories.map(({ id, heading }) => {
+    const items = interventions.filter((item) => item.category === id);
+
+    return (
+      <section id={`interventions-${id}`} data-carousel-panel={id} aria-labelledby={`carousel-heading-${id}`} class="carousel-panel">
+        <div class="carousel-toolbar">
+          <h3 id={`carousel-heading-${id}`} class="text-sm font-medium text-emerald-dark">{heading}</h3>
+          <div data-carousel-controls class="carousel-controls">
+            <span data-carousel-counter aria-hidden="true" class="mr-2 text-xs tabular-nums text-midnight/60">01 / {String(items.length).padStart(2, "0")}</span>
+            <button type="button" data-carousel-previous aria-label="Intervention précédente" aria-controls={`carousel-track-${id}`} class="carousel-arrow" disabled>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" class="size-6">
+                <path d="M20 12H4m6-6-6 6 6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button type="button" data-carousel-next aria-label="Intervention suivante" aria-controls={`carousel-track-${id}`} class="carousel-arrow" disabled>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" class="size-6">
+                <path d="M4 12h16m-6-6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div role="region" aria-roledescription="carrousel" aria-labelledby={`carousel-heading-${id}`}>
+          <ul id={`carousel-track-${id}`} data-carousel-track tabindex="0" aria-label={`Galerie : ${heading}`} class="carousel-track">
+            {items.map((item) => {
+              const path = interventionDetailPath(item.id);
+              return <InterventionSlide intervention={item} photo={interventionPhotos[item.photo]} detailHref={detailPages.has(path) ? path : null} />;
+            })}
+          </ul>
+        </div>
+        <p data-carousel-status class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+      </section>
+    );
+  })}
+
+  <dialog id="interventions-dialog" data-carousel-dialog aria-labelledby="intervention-detail-title" class="carousel-dialog">
+    <form method="dialog" class="absolute top-3 right-3 z-10">
+      <button type="submit" aria-label="Fermer la fiche" class="flex size-11 cursor-pointer items-center justify-center bg-white text-emerald-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-5">
+          <path d="m6 6 12 12M6 18 18 6" stroke-linecap="round" />
+        </svg>
+      </button>
+    </form>
+    <div data-carousel-dialog-content></div>
+  </dialog>
+</section>
+
+<style>
+  .interventions-carousel {
+    --gallery-gap: 12px;
+    width: 100%;
+    padding: clamp(3rem, 6vw, 6rem) clamp(1rem, 3vw, 3rem);
+    background: white;
+    color: var(--color-midnight);
+  }
+
+  .carousel-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .carousel-title {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  }
+
+  .carousel-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+  }
+
+  .carousel-tab {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    border-bottom: 1px solid transparent;
+    color: rgb(18 43 74 / 0.65);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .carousel-tab:hover,
+  .carousel-tab[aria-selected="true"] {
+    color: var(--color-emerald);
+    border-bottom-color: var(--color-emerald);
+  }
+
+  .carousel-panel {
+    margin-top: 2rem;
+    scroll-margin-top: 1.5rem;
+  }
+
+  .carousel-panel[hidden] {
+    display: none;
+  }
+
+  .carousel-toolbar,
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+  }
+
+  .carousel-toolbar {
+    min-height: 44px;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .carousel-controls {
+    flex: 0 0 auto;
+    visibility: hidden;
+  }
+
+  [data-enhanced] .carousel-controls {
+    visibility: visible;
+  }
+
+  .carousel-arrow {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-emerald-dark);
+    cursor: pointer;
+  }
+
+  .carousel-arrow:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  .carousel-arrow:focus-visible {
+    outline: 2px solid var(--color-emerald);
+    outline-offset: -4px;
+  }
+
+  .carousel-track {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 82%;
+    gap: var(--gallery-gap);
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    list-style: none;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-track:focus-visible {
+    outline: 2px solid var(--color-emerald);
+    outline-offset: 4px;
+  }
+
+  .carousel-dialog {
+    position: fixed;
+    width: min(48rem, calc(100% - 2rem));
+    max-height: calc(100svh - 2rem);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: 0;
+    background: white;
+    color: var(--color-midnight);
+  }
+
+  .carousel-dialog::backdrop {
+    background: rgb(18 43 74 / 0.5);
+  }
+
+  :global(html:has(dialog[data-carousel-dialog][open])) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  @media (min-width: 640px) {
+    .carousel-track { grid-auto-columns: 46%; }
+  }
+
+  @media (min-width: 1024px) {
+    .carousel-track { grid-auto-columns: calc((100% - 2 * var(--gallery-gap)) / 3); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .carousel-track { scroll-behavior: smooth; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-interventions-carousel]").forEach((root) => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-carousel-panel]")];
+    const refreshers = new Map<HTMLElement, () => void>();
+
+    panels.forEach((panel) => {
+      const track = panel.querySelector<HTMLElement>("[data-carousel-track]");
+      const previous = panel.querySelector<HTMLButtonElement>("[data-carousel-previous]");
+      const next = panel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+      const counter = panel.querySelector<HTMLElement>("[data-carousel-counter]");
+      const status = panel.querySelector<HTMLElement>("[data-carousel-status]");
+      if (!track || !previous || !next) return;
+      const slides = [...track.querySelectorAll<HTMLElement>("[data-carousel-slide]")];
+      if (!slides.length) return;
+
+      const maximum = () => Math.max(0, track.scrollWidth - track.clientWidth);
+      const step = () => slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth;
+      const current = () => Math.max(0, Math.round(track.scrollLeft / Math.max(1, step())));
+      const update = () => {
+        if (panel.hidden || !track.clientWidth) return;
+        previous.disabled = track.scrollLeft <= 2;
+        next.disabled = track.scrollLeft >= maximum() - 2;
+        const first = current() + 1;
+        const last = Math.min(slides.length, first + Math.ceil(track.clientWidth / Math.max(1, step())) - 1);
+        if (counter) counter.textContent = `${String(first).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+        const message = `Interventions ${first} à ${last} sur ${slides.length}.`;
+        if (status && status.textContent !== message) status.textContent = message;
+      };
+
+      let frame = 0;
+      const schedule = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(() => { frame = 0; update(); });
+      };
+      refreshers.set(panel, schedule);
+
+      const moveTo = (index: number, focusSlide = false) => {
+        const selected = slides[Math.max(0, Math.min(slides.length - 1, index))];
+        if (focusSlide) selected.querySelector<HTMLElement>("[data-intervention-action]")?.focus({ preventScroll: true });
+        track.scrollTo({
+          left: Math.min(maximum(), selected.offsetLeft - slides[0].offsetLeft),
+          behavior: reducedMotion.matches ? "auto" : "smooth",
+        });
+      };
+
+      previous.addEventListener("click", () => moveTo(current() - 1));
+      next.addEventListener("click", () => moveTo(current() + 1));
+      track.addEventListener("scroll", schedule, { passive: true });
+      track.addEventListener("keydown", (event) => {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        const focused = slides.findIndex((slide) => slide.contains(document.activeElement));
+        const index = focused >= 0 ? focused : current();
+        let target: number;
+        if (event.key === "ArrowLeft") target = index - 1;
+        else if (event.key === "ArrowRight") target = index + 1;
+        else if (event.key === "Home") target = 0;
+        else if (event.key === "End") target = slides.length - 1;
+        else return;
+        event.preventDefault();
+        moveTo(target, focused >= 0);
+      });
+      if (typeof ResizeObserver === "function") new ResizeObserver(schedule).observe(track);
+      else window.addEventListener("resize", schedule);
+      schedule();
+    });
+
+    const tabList = root.querySelector<HTMLElement>("[data-carousel-tabs]");
+    const tabs = [...root.querySelectorAll<HTMLAnchorElement>("[data-carousel-tab]")];
+    if (tabList && tabs.length) {
+      tabList.setAttribute("role", "tablist");
+      tabs.forEach((tab) => {
+        tab.setAttribute("role", "tab");
+        tab.setAttribute("aria-controls", `interventions-${tab.dataset.carouselTab}`);
+      });
+      panels.forEach((panel) => {
+        panel.setAttribute("role", "tabpanel");
+        panel.setAttribute("aria-labelledby", `carousel-tab-${panel.dataset.carouselPanel}`);
+      });
+
+      const activate = (selected: HTMLAnchorElement, updateHash = false) => {
+        tabs.forEach((tab) => {
+          const active = tab === selected;
+          tab.setAttribute("aria-selected", String(active));
+          tab.tabIndex = active ? 0 : -1;
+        });
+        panels.forEach((panel) => {
+          panel.hidden = panel.dataset.carouselPanel !== selected.dataset.carouselTab;
+          if (!panel.hidden) refreshers.get(panel)?.();
+        });
+        if (updateHash) history.replaceState(history.state, "", selected.hash);
+      };
+
+      activate(tabs.find((tab) => tab.hash === location.hash) ?? tabs[0]);
+      window.addEventListener("hashchange", () => {
+        const selected = tabs.find((tab) => tab.hash === location.hash);
+        if (selected) activate(selected);
+      });
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", (event) => {
+          if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          activate(tab, true);
+        });
+        tab.addEventListener("keydown", (event) => {
+          let target: number;
+          if (event.key === "ArrowRight") target = (index + 1) % tabs.length;
+          else if (event.key === "ArrowLeft") target = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") target = 0;
+          else if (event.key === "End") target = tabs.length - 1;
+          else if (event.key === " ") target = index;
+          else return;
+          event.preventDefault();
+          activate(tabs[target], true);
+          tabs[target].focus();
+        });
+      });
+    }
+    root.dataset.enhanced = "true";
+
+    const dialog = root.querySelector<HTMLDialogElement>("[data-carousel-dialog]");
+    const content = dialog?.querySelector<HTMLElement>("[data-carousel-dialog-content]");
+    if (!dialog || !content || typeof dialog.showModal !== "function") return;
+    let opener: HTMLElement | null = null;
+
+    root.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) return;
+      const trigger = event.target.closest<HTMLElement>("[data-intervention-open]");
+      if (!trigger) return;
+      const template = [...root.querySelectorAll<HTMLTemplateElement>("[data-intervention-template]")]
+        .find((item) => item.dataset.interventionTemplate === trigger.dataset.interventionOpen);
+      if (!template) return;
+      opener = trigger;
+      content.replaceChildren(template.content.cloneNode(true));
+      dialog.showModal();
+      dialog.scrollTop = 0;
+      content.querySelector<HTMLElement>("[data-detail-title]")?.focus({ preventScroll: true });
+    });
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== dialog) return;
+      const bounds = dialog.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    });
+    dialog.addEventListener("close", () => opener?.focus({ preventScroll: true }));
+  });
+</script>

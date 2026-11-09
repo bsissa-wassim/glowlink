@@ -1,0 +1,100 @@
+---
+import { Picture } from "astro:assets";
+import sidiBouSaid from "../assets/tunisia/sidi-bou-said.jpg";
+import mediterranean from "../assets/tunisia/mediterranee.jpg";
+import hotelGammarth from "../assets/tunisia/hotel-gammarth.jpg";
+
+// Photo licenses: https://www.pexels.com/license/ and https://unsplash.com/license.
+const photographs = [
+  {
+    src: sidiBouSaid,
+    alt: "Ruelle pavée de Sidi Bou Saïd, façades blanches, portes bleues et végétation grimpante.",
+    label: "Sidi Bou Saïd",
+    credit: "Reyyan",
+    provider: "Pexels",
+    source: "https://www.pexels.com/photo/charming-white-and-blue-street-in-sidi-bou-said-32331295/",
+    width: 960,
+    height: 1280,
+    position: "center",
+  },
+  {
+    src: mediterranean,
+    alt: "Eaux turquoise de la Méditerranée et criques rocheuses sur le littoral de Bizerte.",
+    label: "La Méditerranée",
+    credit: "Ismail Saidi",
+    provider: "Pexels",
+    source: "https://www.pexels.com/photo/rocks-on-sea-shore-15934829/",
+    width: 1200,
+    height: 675,
+    position: "center",
+  },
+  {
+    src: hotelGammarth,
+    alt: "Terrasse de l’hôtel Mövenpick Gammarth avec une table, des fauteuils et une vue sur la baie de La Marsa.",
+    label: "Mövenpick Gammarth, La Marsa",
+    credit: "Geoffrey Arduini",
+    provider: "Unsplash",
+    source: "https://unsplash.com/photos/square-brown-table-and-four-chairs-patio-set-_flxtLvSPAs",
+    width: 1200,
+    height: 675,
+    position: "center",
+  },
+];
+
+const sizes = "(min-width: 1024px) 512px, (min-width: 768px) 50vw, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)";
+---
+
+<section id="tunisie" aria-labelledby="tunisia-heading" class="mx-auto max-w-5xl bg-white px-4 py-12 sm:px-6 sm:py-16">
+  <header class="mb-7 grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:items-end md:gap-10">
+    <div>
+      <p class="mb-4 flex items-center gap-3 text-xs font-medium tracking-[0.16em] text-emerald uppercase">
+        <span aria-hidden="true" class="h-px w-7 bg-emerald"></span>
+        L’expérience tunisienne
+      </p>
+      <h2 id="tunisia-heading" class="tunisia-heading max-w-[20ch] text-4xl leading-[1.12] tracking-tight text-emerald-dark sm:text-5xl">
+        Bien plus qu'une destination de soins.
+      </h2>
+    </div>
+    <p class="max-w-md text-sm leading-relaxed text-midnight/90 sm:text-base">
+      Les ruelles blanches et bleues de Sidi Bou Saïd, la douceur de la Méditerranée,
+      le charme des patios : découvrez une Tunisie qui invite à ralentir et à savourer une parenthèse de détente.
+    </p>
+  </header>
+
+  <div class="grid gap-1.5 md:aspect-[8/5] md:grid-cols-[0.95fr_1.05fr] md:grid-rows-2">
+    {photographs.map(({ src, alt, label, credit, provider, source, width, height, position }, index) => (
+      <figure class:list={[
+        "min-h-0 min-w-0 overflow-hidden",
+        index === 0 ? "aspect-[3/4] md:row-span-2 md:aspect-auto" : "aspect-video md:aspect-auto",
+      ]}>
+        <Picture
+          src={src}
+          alt={alt}
+          formats={["avif"]}
+          fallbackFormat="webp"
+          width={width}
+          height={height}
+          widths={[320, 480, 640, 960, 1280]}
+          sizes={sizes}
+          quality={70}
+          fit="cover"
+          position={position}
+          loading="lazy"
+          decoding="async"
+          pictureAttributes={{ class: "block size-full" }}
+          class="block size-full object-cover"
+        />
+        <figcaption class="sr-only">
+          {label}. Photographie : {credit}, <a href={source}>{provider}</a>.
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .tunisia-heading {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  }
+
+</style>

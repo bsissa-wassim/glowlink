@@ -1,0 +1,152 @@
+---
+interface Props {
+  title: string;
+  eyebrow?: string;
+  description?: string;
+}
+
+const { title, eyebrow, description } = Astro.props;
+---
+
+<section aria-labelledby="hero-title" class="video-hero relative isolate grid w-full overflow-hidden bg-emerald md:grid-cols-2">
+  <div class="relative z-10 flex min-w-0 items-center px-5 py-10 text-white md:px-8 md:py-8 lg:px-12 xl:px-16">
+    <div class="flex w-full max-w-xl flex-col items-start gap-5">
+      {eyebrow && (
+        <p class="max-w-sm text-xs leading-relaxed font-semibold tracking-[0.08em] text-mint uppercase sm:text-sm">
+          {eyebrow}
+        </p>
+      )}
+      <h1 id="hero-title" class="hero-title max-w-[14ch] text-[clamp(2rem,4.2vw,4.5rem)] leading-[1.12] font-normal tracking-[-0.035em] text-balance break-words">
+        {title}
+      </h1>
+      {description && (
+        <p class="max-w-md text-sm leading-relaxed text-white sm:text-base xl:w-[52rem] xl:max-w-none xl:text-balance">
+          {description}
+        </p>
+      )}
+      {Astro.slots.has("actions") && (
+        <div class="flex flex-col items-start gap-3 pt-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
+          <slot name="actions" />
+        </div>
+      )}
+    </div>
+  </div>
+  <div class="video-hero-media relative min-w-0 overflow-hidden">
+    <video
+      data-hero-video
+      data-desktop-src="/media/massage-desktop.mp4"
+      data-mobile-src="/media/massage-mobile.mp4"
+      poster="/media/massage-poster.webp"
+      width="1920"
+      height="1080"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="none"
+      disablepictureinpicture
+      disableremoteplayback
+      aria-hidden="true"
+      tabindex="-1"
+      class="pointer-events-none absolute inset-0 size-full object-cover object-[50%_35%] md:object-[50%_38%]"
+    ></video>
+  </div>
+</section>
+
+<style>
+  .hero-title {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  }
+
+  .video-hero::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -15%;
+    left: -18%;
+    width: 85%;
+    height: 140%;
+    border-radius: 42% 58% 65% 35% / 48% 38% 62% 52%;
+    background: radial-gradient(
+      ellipse at 35% 35%,
+      rgb(221 242 237 / 0.06),
+      rgb(0 102 77 / 0.1) 50%,
+      transparent 74%
+    );
+    pointer-events: none;
+  }
+
+  .video-hero-media {
+    height: clamp(20rem, 50svh, 30rem);
+    margin-top: -2.5rem;
+    mask-image: linear-gradient(to bottom, transparent, #000 5rem);
+  }
+
+  .video-hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgb(0 127 96 / 0.24),
+      transparent 60%,
+      rgb(0 102 77 / 0.12)
+    );
+    pointer-events: none;
+  }
+
+  @media (min-width: 48rem) {
+    .video-hero {
+      min-height: min(40rem, calc(100svh - var(--header-height)));
+    }
+
+    .video-hero-media {
+      position: absolute;
+      inset: 0 0 0 auto;
+      width: 68%;
+      height: 100%;
+      min-height: 0;
+      margin-top: 0;
+      mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgb(0 0 0 / 0.12) 10%,
+        rgb(0 0 0 / 0.5) 25%,
+        #000 44%
+      );
+    }
+  }
+</style>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+
+  if (video) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Select once so resizing never downloads a second video.
+    const source = window.matchMedia("(max-width: 767px)").matches
+      ? video.dataset.mobileSrc
+      : video.dataset.desktopSrc;
+
+    const updatePlayback = () => {
+      if (reducedMotion.matches) {
+        if (video.hasAttribute("src")) {
+          video.pause();
+          video.removeAttribute("src");
+          video.load();
+        }
+        return;
+      }
+
+      if (!source) return;
+
+      video.muted = true;
+      if (!video.hasAttribute("src")) video.src = source;
+      // Browsers may refuse autoplay; the poster remains visible.
+      void video.play().catch(() => {});
+    };
+
+    updatePlayback();
+    reducedMotion.addEventListener("change", updatePlayback);
+  }
+</script>

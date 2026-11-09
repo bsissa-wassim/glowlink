@@ -1,0 +1,56 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import CareIcon from "./CareIcon.astro";
+
+const giftDecorations = [
+  "left-[4%] top-[6%] size-8 -rotate-12",
+  "right-[9%] top-[9%] size-16 rotate-12",
+  "right-[3%] top-[42%] size-10 -rotate-12",
+  "left-[5%] top-[64%] size-14 rotate-12",
+  "right-[22%] bottom-[4%] size-8 -rotate-12",
+  "left-[29%] bottom-[3%] size-10 rotate-12",
+];
+---
+
+<section id="offres" aria-labelledby="offers-heading" class="relative isolate overflow-hidden bg-mint/20">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 text-emerald/25">
+    {giftDecorations.map((position) => (
+      <span class:list={["absolute", position]}>
+        <CareIcon name="gift" class="size-full" />
+      </span>
+    ))}
+  </div>
+  <div class="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
+    <SectionHeading id="offers-heading" eyebrow="Offres & avantages" title="Une expérience qui se partage.">
+      <p>Parrainage ou séjour à deux : des attentions dédiées à vos projets en esthétique, en dentaire, en ophtalmologie ou pour une greffe de cheveux.</p>
+    </SectionHeading>
+
+    <div class="mt-9 grid gap-2 md:grid-cols-2">
+      <article class="flex flex-col items-start bg-white p-6 sm:p-8">
+        <CareIcon name="gift" class="mb-5 size-8 text-emerald" />
+        <p class="text-xs font-medium tracking-[0.1em] text-emerald uppercase">Le parrainage</p>
+        <h3 class="mt-3 font-editorial text-3xl tracking-tight text-emerald-dark">Glow & Share</h3>
+        <dl class="mt-5 space-y-4 text-sm leading-relaxed">
+          <div>
+            <dt class="font-medium text-emerald-dark">Pour vous</dt>
+            <dd class="mt-1 text-midnight/90">Un crédit e-Gift pour votre prochain séjour ou une carte cadeau digitale.</dd>
+          </div>
+          <div>
+            <dt class="font-medium text-emerald-dark">Pour votre filleul</dt>
+            <dd class="mt-1 text-midnight/90">Un accueil personnalisé à l’aéroport de Tunis et un transfert privé haut de gamme offerts en surclassement VIP.</dd>
+          </div>
+        </dl>
+        <a href="mailto:info.glowlink@gmail.com?subject=Programme%20Glow%20%26%20Share" class="mt-6 inline-flex min-h-11 items-center gap-3 text-sm font-medium text-emerald-dark hover:underline hover:underline-offset-4">Demander les modalités <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="flex flex-col items-start bg-white p-6 sm:p-8">
+        <CareIcon name="people" class="mb-5 size-8 text-emerald" />
+        <p class="text-xs font-medium tracking-[0.1em] text-emerald uppercase">À deux</p>
+        <h3 class="mt-3 font-editorial text-3xl tracking-tight text-emerald-dark">Duo & accompagnant</h3>
+        <p class="mt-5 text-sm leading-relaxed text-midnight/90">Pour une réservation simultanée de deux personnes, bénéficiez d’une remise privilégiée sur les services de conciergerie et d’un transfert VIP.</p>
+        <p class="mt-4 mb-4 text-sm leading-relaxed text-midnight/90">Deux projets de soins ou un séjour avec un proche : l’organisation s’adapte à chacun, quelle que soit la spécialité concernée.</p>
+        <a href="mailto:info.glowlink@gmail.com?subject=Offre%20Duo%20et%20accompagnant" class="mt-auto inline-flex min-h-11 items-center gap-3 text-sm font-medium text-emerald-dark hover:underline hover:underline-offset-4">Préparer notre séjour <span aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+  </div>
+</section>

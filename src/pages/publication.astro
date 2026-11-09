@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const sections = [
+  { label: "Blog", href: "/blog" },
+  { label: "Parcours patient", href: "/experience-centree-patient" },
+];
+---
+
+<BaseLayout title="Publication">
+  <nav aria-label="Rubriques Publication" class="mt-8">
+    <ul class="flex flex-col gap-4 sm:flex-row sm:gap-10">
+      {sections.map(({ label, href }) => (
+        <li>
+          <a href={href} class="inline-flex min-h-11 items-center gap-4 text-lg font-medium text-midnight hover:text-emerald motion-safe:transition-colors">
+            {label}
+            <span aria-hidden="true" class="text-emerald">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</BaseLayout>

@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import VideoHero from "../components/VideoHero.astro";
+import ContactSection from "../components/ContactSection.astro";
+import TunisiaGallery from "../components/TunisiaGallery.astro";
+import SocialMarquee from "../components/SocialMarquee.astro";
+import FounderStory from "../components/FounderStory.astro";
+import founderPortrait from "../assets/fondatrice.jpeg";
+import MedicalNetwork from "../components/MedicalNetwork.astro";
+import HolisticApproach from "../components/HolisticApproach.astro";
+import PatientJourney from "../components/PatientJourney.astro";
+import CareSpecialties from "../components/CareSpecialties.astro";
+import AboutMission from "../components/AboutMission.astro";
+import OffersSection from "../components/OffersSection.astro";
+import PublicationsSection from "../components/PublicationsSection.astro";
+import ScrollReveal from "../components/ScrollReveal.astro";
+---
+
+<BaseLayout title="Accueil" hero>
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    type="image/webp"
+    href="/media/massage-poster.webp"
+    fetchpriority="high"
+  />
+  <VideoHero
+    title="Votre bien-être commence avant votre soin."
+    description="Corps et esprit enfin réunis. Notre conciergerie médicale réinvente les soins grâce à une approche holistique et centrée sur la santé mentale. Vivez chaque intervention comme une parenthèse privilégiée, entre accompagnement personnalisé et séjour de détente face à la Méditerranée."
+  >
+    <Fragment slot="actions">
+      <a
+        href="#contact"
+        class="inline-flex min-h-11 items-center justify-center rounded-full bg-midnight px-5 py-3 text-sm font-semibold text-white hover:bg-midnight/90 focus-visible:outline-white motion-safe:transition-colors"
+      >
+        Obtenir un devis gratuit
+      </a>
+      <a
+        href="#parcours-patient"
+        class="inline-flex min-h-11 items-center text-sm font-medium text-white underline decoration-white/50 underline-offset-4 hover:decoration-white focus-visible:outline-white motion-safe:transition-colors"
+      >
+        Découvrir l’expérience
+      </a>
+    </Fragment>
+  </VideoHero>
+  <TunisiaGallery />
+  <MedicalNetwork />
+  <HolisticApproach />
+  <PatientJourney />
+  <CareSpecialties />
+  <AboutMission />
+  <FounderStory portrait={founderPortrait} />
+  <OffersSection />
+  <PublicationsSection />
+  <ContactSection />
+  <SocialMarquee />
+  <ScrollReveal />
+</BaseLayout>
