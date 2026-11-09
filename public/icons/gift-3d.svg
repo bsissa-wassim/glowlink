@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="112" height="120" viewBox="0 0 112 120" fill="none">
+  <defs>
+    <linearGradient id="front" x1="16" y1="57" x2="58" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#15AE87"/>
+      <stop offset="1" stop-color="#007F60"/>
+    </linearGradient>
+    <linearGradient id="side" x1="61" y1="68" x2="97" y2="99" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#007F60"/>
+      <stop offset="1" stop-color="#004E3B"/>
+    </linearGradient>
+    <linearGradient id="lid" x1="35" y1="29" x2="78" y2="65" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#83DCC3"/>
+      <stop offset="0.5" stop-color="#25B48D"/>
+      <stop offset="1" stop-color="#008A68"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="29" y1="52" x2="48" y2="101" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#DDF2ED"/>
+    </linearGradient>
+    <linearGradient id="bow" x1="42" y1="12" x2="69" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#F4FCF9"/>
+      <stop offset="1" stop-color="#ADD9CC"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="57" cy="114" rx="32" ry="4" fill="#00664D" opacity="0.13"/>
+  <path d="M14 53 57 70v41L14 92V53Z" fill="url(#front)"/>
+  <path d="m57 70 42-19v41l-42 19V70Z" fill="url(#side)"/>
+  <path d="m31 60 11 5v39l-11-5V60Z" fill="url(#ribbon)"/>
+  <path d="m75 62 10-5v41l-10 5V62Z" fill="#DDF2ED"/>
+  <path d="m14 58 43 18 42-19v7L57 83 14 65v-7Z" fill="#004E3B" opacity="0.18"/>
+  <path d="m10 47 50 21v11L10 58V47Z" fill="#0E9873"/>
+  <path d="m60 68 44-22v12L60 79V68Z" fill="#00664D"/>
+  <path d="m10 47 42-20 52 19-44 22-50-21Z" fill="url(#lid)"/>
+  <path d="m29 38 10-5 49 19-11 5-48-19Z" fill="#DDF2ED"/>
+  <path d="m28 55 42-20 11 4-42 21-11-5Z" fill="#FFFFFF"/>
+  <path d="m31 56 11 5v11l-11-5V56Z" fill="url(#ribbon)"/>
+  <path d="m75 61 10-5v12l-10 5V61Z" fill="#C9E6DE"/>
+  <path d="m11 47 49 21 43-22" stroke="#B6EDDB" stroke-opacity="0.7" stroke-linejoin="round"/>
+  <path d="M57 38C39 40 20 28 28 15 36 2 55 16 59 33l-2 5Z" fill="url(#bow)"/>
+  <path d="M51 31C41 29 31 24 34 19s14 1 17 12Z" fill="#75BBA7"/>
+  <path d="M57 38C59 16 79 5 87 18c9 14-11 25-30 20Z" fill="url(#bow)"/>
+  <path d="M65 31c3-8 12-15 15-10 3 6-5 11-15 10Z" fill="#74B9A5"/>
+  <path d="m55 38-17 13 9 2-1 10 18-20-9-5Z" fill="url(#bow)"/>
+  <path d="m64 37 21 14-10 1-1 9-16-18 6-6Z" fill="#E7F6EF"/>
+  <path d="m51 34 10-4 10 6-9 10-11-5v-7Z" fill="url(#bow)"/>
+  <path d="m53 34 8-3 8 5" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

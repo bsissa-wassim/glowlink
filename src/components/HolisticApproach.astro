@@ -3,49 +3,51 @@ import { Picture } from "astro:assets";
 import SectionHeading from "./SectionHeading.astro";
 import CareIcon from "./CareIcon.astro";
 import meditationBackground from "../assets/wellness/meditation.jpg";
+import { homepageContent } from "../data/homepageContent";
 
 // Photo: Los Muertos Crew / Pexels, https://www.pexels.com/photo/woman-meditating-outdoors-8391701/
 // License: https://www.pexels.com/license/
-
-const attentions = [
-  { icon: "conversation", title: "Être écouté", text: "Un espace pour vos questions, vos attentes et vos appréhensions." },
-  { icon: "shield", title: "Comprendre son parcours", text: "Des étapes expliquées et une coordination attentive de votre séjour." },
-  { icon: "leaf", title: "Prendre le temps", text: "Des moments de détente adaptés à votre rythme et à votre prise en charge." },
-] as const;
+const content = homepageContent.philosophy;
 ---
 
-<section id="philosophie" aria-labelledby="philosophy-heading" class="relative isolate overflow-hidden bg-mint/20">
-  <Picture
-    src={meditationBackground}
-    alt=""
-    formats={["avif"]}
-    fallbackFormat="webp"
-    width={1800}
-    height={1202}
-    widths={[640, 1024, 1440, 1800]}
-    sizes="100vw"
-    quality={70}
-    loading="lazy"
-    decoding="async"
-    pictureAttributes={{ "aria-hidden": "true", class: "pointer-events-none absolute inset-0 block size-full opacity-[0.20]" }}
-    class="block size-full object-cover object-[50%_45%]"
-  />
+<section id="philosophie" aria-labelledby="philosophy-heading" class="relative isolate mt-8 overflow-hidden sm:mt-12 lg:mt-16">
+  <div aria-hidden="true" class="philosophy-background pointer-events-none absolute inset-0 bg-mint/20">
+    <Picture
+      src={meditationBackground}
+      alt=""
+      formats={["avif"]}
+      fallbackFormat="webp"
+      width={1800}
+      height={1202}
+      widths={[640, 1024, 1440, 1800]}
+      sizes="100vw"
+      quality={70}
+      loading="lazy"
+      decoding="async"
+      pictureAttributes={{ class: "absolute inset-0 block size-full opacity-[0.20]" }}
+      class="block size-full object-cover object-[50%_45%]"
+    />
+  </div>
   <div class="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
-    <div class="grid gap-6 md:grid-cols-2 md:items-end md:gap-12">
-      <SectionHeading id="philosophy-heading" eyebrow="Notre philosophie" title="Corps et esprit, une même attention." />
-      <div class="space-y-4 text-sm leading-relaxed text-midnight/90 sm:text-base">
-        <p>Un projet de soins à l’étranger peut susciter autant d’espoir que de questions. Votre tranquillité d’esprit mérite elle aussi une attention particulière.</p>
-        <p>Notre approche holistique associe l’organisation de votre parcours médical à une présence humaine, une préparation émotionnelle et des temps de détente. Pour vous accompagner dans votre globalité.</p>
-      </div>
-    </div>
-    <ul class="mt-10 grid gap-8 sm:mt-12 md:grid-cols-3 md:gap-10">
-      {attentions.map(({ icon, title, text }) => (
-        <li>
-          <CareIcon name={icon} class="mb-4 size-7 text-emerald" />
-          <h3 class="text-lg font-medium tracking-tight text-emerald-dark">{title}</h3>
-          <p class="mt-2 max-w-sm text-sm leading-relaxed text-midnight/90">{text}</p>
-        </li>
-      ))}
-    </ul>
+    <SectionHeading id="philosophy-heading" title={content.title} />
+    <table aria-labelledby="philosophy-heading" class="mt-8 w-full text-left">
+      <tbody>
+        <tr>
+          <td>
+            <h3 class="flex items-center gap-3 text-lg font-medium text-emerald-dark">
+              <CareIcon name="brain" class="size-6 shrink-0 text-emerald" />
+              {content.label}
+            </h3>
+            <p class="mt-4 max-w-prose text-sm leading-relaxed text-midnight/90 sm:text-base">{content.description}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
+
+<style>
+  .philosophy-background {
+    mask-image: linear-gradient(to bottom, transparent, #000 clamp(4rem, 7vw, 7rem));
+  }
+</style>

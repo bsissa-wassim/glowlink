@@ -20,9 +20,9 @@ const { title, eyebrow, description } = Astro.props;
         {title}
       </h1>
       {description && (
-        <p class="max-w-md text-sm leading-relaxed text-white sm:text-base xl:w-[52rem] xl:max-w-none xl:text-balance">
+        <h2 class="max-w-md text-sm leading-relaxed font-normal text-white sm:text-base xl:w-[52rem] xl:max-w-none xl:text-balance">
           {description}
-        </p>
+        </h2>
       )}
       {Astro.slots.has("actions") && (
         <div class="flex flex-col items-start gap-3 pt-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
@@ -54,6 +54,11 @@ const { title, eyebrow, description } = Astro.props;
 </section>
 
 <style>
+  .video-hero {
+    --hero-fade-height: clamp(3rem, 6vw, 5rem);
+    padding-bottom: var(--hero-fade-height);
+  }
+
   .hero-title {
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
   }
@@ -73,6 +78,18 @@ const { title, eyebrow, description } = Astro.props;
       rgb(0 102 77 / 0.1) 50%,
       transparent 74%
     );
+    pointer-events: none;
+  }
+
+  .video-hero::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: var(--hero-fade-height);
+    background: linear-gradient(to bottom, rgb(255 255 255 / 0), #fff);
     pointer-events: none;
   }
 

@@ -44,24 +44,7 @@ const photographs = [
 const sizes = "(min-width: 1024px) 512px, (min-width: 768px) 50vw, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)";
 ---
 
-<section id="tunisie" aria-labelledby="tunisia-heading" class="mx-auto max-w-5xl bg-white px-4 py-12 sm:px-6 sm:py-16">
-  <header class="mb-7 grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:items-end md:gap-10">
-    <div>
-      <p class="mb-4 flex items-center gap-3 text-xs font-medium tracking-[0.16em] text-emerald uppercase">
-        <span aria-hidden="true" class="h-px w-7 bg-emerald"></span>
-        L’expérience tunisienne
-      </p>
-      <h2 id="tunisia-heading" class="tunisia-heading max-w-[20ch] text-4xl leading-[1.12] tracking-tight text-emerald-dark sm:text-5xl">
-        Bien plus qu'une destination de soins.
-      </h2>
-    </div>
-    <p class="max-w-md text-sm leading-relaxed text-midnight/90 sm:text-base">
-      Les ruelles blanches et bleues de Sidi Bou Saïd, la douceur de la Méditerranée,
-      le charme des patios : découvrez une Tunisie qui invite à ralentir et à savourer une parenthèse de détente.
-    </p>
-  </header>
-
-  <div class="grid gap-1.5 md:aspect-[8/5] md:grid-cols-[0.95fr_1.05fr] md:grid-rows-2">
+<div id="tunisie" role="group" aria-labelledby="network-heading" class="mt-8 grid gap-1.5 md:aspect-[8/5] md:grid-cols-[0.95fr_1.05fr] md:grid-rows-2">
     {photographs.map(({ src, alt, label, credit, provider, source, width, height, position }, index) => (
       <figure class:list={[
         "min-h-0 min-w-0 overflow-hidden",
@@ -89,12 +72,4 @@ const sizes = "(min-width: 1024px) 512px, (min-width: 768px) 50vw, (min-width: 6
         </figcaption>
       </figure>
     ))}
-  </div>
-</section>
-
-<style>
-  .tunisia-heading {
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
-  }
-
-</style>
+</div>

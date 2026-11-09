@@ -1,0 +1,86 @@
+---
+import CareIcon from "./CareIcon.astro";
+
+const offers = [
+  { icon: "gift", label: "Parrainage : Partagez & Profitez" },
+  { icon: "people", label: "Duo : Ensemble & Complices" },
+] as const;
+---
+
+<div data-offers-banner-trigger aria-hidden="true" class="offers-banner-marker"></div>
+<aside data-offers-banner hidden aria-label="Nos offres" class="offers-banner w-full bg-midnight text-white">
+  <a href="#offres" class="mx-auto block max-w-5xl px-4 py-5 focus-visible:outline-white sm:px-6 sm:py-7">
+    <ul class="grid gap-5 md:grid-cols-2 md:gap-10">
+      {offers.map(({ icon, label }) => (
+        <li class="flex items-center gap-4">
+          <CareIcon name={icon} class="size-7 shrink-0 text-mint sm:size-8" />
+          <span class="text-base leading-snug font-medium tracking-tight sm:text-xl">{label}</span>
+        </li>
+      ))}
+    </ul>
+  </a>
+</aside>
+
+<style>
+  .offers-banner-marker {
+    height: 1px;
+    margin-bottom: -1px;
+    pointer-events: none;
+  }
+
+  .offers-banner {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .offers-banner[data-active]:hover,
+  .offers-banner[data-active]:focus-within {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .offers-banner[data-active] {
+      animation: offers-banner-slide 3.8s ease-in-out both;
+    }
+
+    @keyframes offers-banner-slide {
+      0% { opacity: 0; transform: translate3d(100%, 0, 0); }
+      10.5263%, 89.4737% { opacity: 1; transform: translate3d(0, 0, 0); }
+      100% { opacity: 0; transform: translate3d(-100%, 0, 0); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .offers-banner[data-active] {
+      animation: offers-banner-still 3s linear both;
+    }
+
+    @keyframes offers-banner-still {
+      from, to { opacity: 1; }
+    }
+  }
+</style>
+
+<script>
+  const marker = document.querySelector<HTMLElement>("[data-offers-banner-trigger]");
+  const banner = document.querySelector<HTMLElement>("[data-offers-banner]");
+
+  if (marker && banner && "IntersectionObserver" in window) {
+    const hide = () => { banner.hidden = true; };
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      banner.hidden = false;
+      banner.dataset.active = "";
+      observer.disconnect();
+    });
+
+    observer.observe(marker);
+    banner.addEventListener("animationend", (event) => {
+      if (event.target === banner) hide();
+    });
+    banner.querySelector("a")?.addEventListener("click", hide);
+    banner.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") hide();
+    });
+  }
+</script>

@@ -5,6 +5,7 @@ import SectionHeading from "./SectionHeading.astro";
 import aestheticBackground from "../assets/specialties/esthetique.jpg";
 import dentalBackground from "../assets/specialties/dentaire.jpg";
 import eyeBackground from "../assets/specialties/ophtalmologie.jpg";
+import { homepageContent } from "../data/homepageContent";
 
 // Photos / Pexels license: https://www.pexels.com/license/
 const backgrounds = [
@@ -14,9 +15,9 @@ const backgrounds = [
 ] as const;
 
 const specialties = [
-  { id: "chirurgie-esthetique", icon: "face", title: "Chirurgie esthétique & plastique", text: "Visage, silhouette et chirurgie réparatrice : un projet étudié avec le praticien.", href: "mailto:info.glowlink@gmail.com?subject=Projet%20de%20chirurgie%20esthetique", action: "Parler de mon projet" },
-  { id: "soins-dentaires", icon: "tooth", title: "Soins & chirurgie dentaire", text: "Une coordination attentive pour organiser votre parcours de soins dentaires.", href: "mailto:info.glowlink@gmail.com?subject=Projet%20de%20soins%20dentaires", action: "Parler de mon projet" },
-  { id: "ophtalmologie", icon: "eye", title: "Ophtalmologie", text: "Un accompagnement personnalisé dans l’organisation de vos soins de la vue.", href: "mailto:info.glowlink@gmail.com?subject=Projet%20en%20ophtalmologie", action: "Parler de mon projet" },
+  { id: "chirurgie-esthetique", icon: "face" },
+  { id: "soins-dentaires", icon: "tooth" },
+  { id: "ophtalmologie", icon: "eye" },
 ] as const;
 ---
 
@@ -44,21 +45,26 @@ const specialties = [
     </div>
   </div>
   <div class="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
-    <SectionHeading id="specialties-heading" eyebrow="Nos spécialités" title="Une même attention, quel que soit votre soin.">
-      <p>La préparation et le bien-être accompagnent l’ensemble des parcours organisés par GlowLink, au-delà de la chirurgie esthétique.</p>
-    </SectionHeading>
-    <ul class="mt-9 grid gap-8 md:grid-cols-3 md:gap-10">
-      {specialties.map(({ id, icon, title, text, href, action }) => (
-        <li id={id} class="flex scroll-mt-8 flex-col items-start">
-          <CareIcon name={icon} class="mb-4 size-8 text-emerald" />
-          <h3 class="text-lg leading-snug font-medium tracking-tight text-emerald-dark">{title}</h3>
-          <p class="mt-3 mb-4 text-sm leading-relaxed text-midnight/90">{text}</p>
-          <a href={href} class="mt-auto inline-flex min-h-11 items-center gap-3 text-sm font-medium text-emerald-dark hover:underline hover:underline-offset-4">
-            {action} <span aria-hidden="true">↗</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <SectionHeading id="specialties-heading" title={homepageContent.specialties.title} />
+    <table aria-labelledby="specialties-heading" class="mt-9 w-full border-collapse text-left">
+      <thead>
+        <tr>
+          <th scope="col" class="pb-4 text-sm font-medium text-emerald-dark">{homepageContent.specialties.header}</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-emerald/10">
+        {specialties.map(({ id, icon }, index) => (
+          <tr id={id} class="scroll-mt-8">
+            <td class="py-5">
+              <div class="flex items-center gap-4">
+                <CareIcon name={icon} class="size-8 shrink-0 text-emerald" />
+                <span class="text-lg leading-snug font-medium tracking-tight text-emerald-dark">{homepageContent.specialties.rows[index]}</span>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 </section>
 

@@ -2,9 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import VideoHero from "../components/VideoHero.astro";
 import ContactSection from "../components/ContactSection.astro";
-import TunisiaGallery from "../components/TunisiaGallery.astro";
 import SocialMarquee from "../components/SocialMarquee.astro";
-import FounderStory from "../components/FounderStory.astro";
 import founderPortrait from "../assets/fondatrice.jpeg";
 import MedicalNetwork from "../components/MedicalNetwork.astro";
 import HolisticApproach from "../components/HolisticApproach.astro";
@@ -14,6 +12,9 @@ import AboutMission from "../components/AboutMission.astro";
 import OffersSection from "../components/OffersSection.astro";
 import PublicationsSection from "../components/PublicationsSection.astro";
 import ScrollReveal from "../components/ScrollReveal.astro";
+import FloatingOffers from "../components/FloatingOffers.astro";
+import OffersBanner from "../components/OffersBanner.astro";
+import { homepageContent } from "../data/homepageContent";
 ---
 
 <BaseLayout title="Accueil" hero>
@@ -26,8 +27,8 @@ import ScrollReveal from "../components/ScrollReveal.astro";
     fetchpriority="high"
   />
   <VideoHero
-    title="Votre bien-être commence avant votre soin."
-    description="Corps et esprit enfin réunis. Notre conciergerie médicale réinvente les soins grâce à une approche holistique et centrée sur la santé mentale. Vivez chaque intervention comme une parenthèse privilégiée, entre accompagnement personnalisé et séjour de détente face à la Méditerranée."
+    title={homepageContent.hero.title}
+    description={homepageContent.hero.description}
   >
     <Fragment slot="actions">
       <a
@@ -44,16 +45,16 @@ import ScrollReveal from "../components/ScrollReveal.astro";
       </a>
     </Fragment>
   </VideoHero>
-  <TunisiaGallery />
-  <MedicalNetwork />
   <HolisticApproach />
   <PatientJourney />
+  <OffersBanner />
   <CareSpecialties />
-  <AboutMission />
-  <FounderStory portrait={founderPortrait} />
+  <AboutMission portrait={founderPortrait} />
+  <MedicalNetwork />
   <OffersSection />
   <PublicationsSection />
   <ContactSection />
   <SocialMarquee />
   <ScrollReveal />
+  <FloatingOffers slot="overlay" />
 </BaseLayout>

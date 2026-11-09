@@ -1,0 +1,250 @@
+---
+import { homepageContent } from "../data/homepageContent";
+
+const { referral, duo } = homepageContent.offers;
+---
+
+<aside data-floating-offers aria-label="Offres GlowLink" class="floating-offers">
+  <div class="floating-offers-entrance">
+    <div class="floating-offers-float">
+      <button
+        type="button"
+        popovertarget="floating-offers-panel"
+        aria-label="Découvrir les offres GlowLink"
+        aria-haspopup="dialog"
+        aria-controls="floating-offers-panel"
+        aria-expanded="false"
+        class="floating-offers-trigger"
+      >
+        <span class="floating-offers-gift">
+          <img src="/icons/gift-3d.svg" alt="" aria-hidden="true" width="72" height="77" decoding="async" />
+        </span>
+        <span class="floating-offers-badge" aria-hidden="true">Nos offres</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="floating-offers-panel" popover="auto" role="dialog" aria-labelledby="floating-offers-heading" class="floating-offers-panel">
+    <header class="floating-offers-header">
+      <h2 id="floating-offers-heading" class="font-editorial text-2xl tracking-tight text-emerald-dark">Nos offres</h2>
+      <button type="button" popovertarget="floating-offers-panel" popovertargetaction="hide" aria-label="Fermer les offres" autofocus class="floating-offers-close">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="19" height="19">
+          <path d="m6 6 12 12M6 18 18 6" stroke-linecap="round" />
+        </svg>
+      </button>
+    </header>
+    <div class="floating-offers-content">
+      <article>
+        <h3 class="text-sm leading-relaxed font-semibold text-emerald-dark">{referral.title}</h3>
+      </article>
+      <article class="mt-5 border-t border-mint pt-5">
+        <h3 class="text-sm leading-relaxed font-semibold text-emerald-dark">{duo.title}</h3>
+      </article>
+      <a href="#offres" class="mt-5 inline-flex min-h-11 items-center gap-3 text-sm font-medium text-emerald-dark underline decoration-emerald/30 underline-offset-4 hover:decoration-emerald">
+        Voir les offres
+        <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.25" width="16" height="16">
+          <path d="m5 15 10-10M5 5h10v10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .floating-offers {
+    --offers-edge: max(1rem, env(safe-area-inset-right));
+    --offers-top: calc(var(--header-height) + max(1rem, env(safe-area-inset-top)));
+    --offers-trigger-height: 5.5rem;
+    position: fixed;
+    z-index: 40;
+    right: var(--offers-edge);
+    top: var(--offers-top);
+    pointer-events: none;
+  }
+
+  .floating-offers-trigger {
+    display: flex;
+    min-height: var(--offers-trigger-height);
+    min-width: 64px;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .floating-offers-badge {
+    padding: 0.4rem 0.65rem;
+    border-radius: 999px;
+    background: white;
+    color: var(--color-emerald-dark);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    box-shadow: 0 2px 12px rgb(18 43 74 / 0.06);
+  }
+
+  .floating-offers-gift {
+    display: block;
+    width: 60px;
+    border-radius: 0.75rem;
+    filter: drop-shadow(0 6px 7px rgb(0 102 77 / 0.16));
+  }
+
+  .floating-offers-gift img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .floating-offers-trigger:focus-visible {
+    outline: none;
+  }
+
+  .floating-offers-trigger:focus-visible .floating-offers-gift {
+    outline: 2px solid var(--color-emerald-dark);
+    outline-offset: 4px;
+  }
+
+  .floating-offers-panel {
+    position: fixed;
+    inset: calc(var(--offers-top) + var(--offers-trigger-height) + 0.75rem) var(--offers-edge) auto auto;
+    width: min(23rem, calc(100vw - var(--offers-edge) * 2));
+    max-height: min(34rem, calc(100svh - var(--offers-top) - var(--offers-trigger-height) - 1.75rem));
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 1rem;
+    background: white;
+    color: var(--color-midnight);
+    box-shadow: 0 10px 44px rgb(18 43 74 / 0.14);
+    pointer-events: auto;
+  }
+
+  .floating-offers-panel:popover-open {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .floating-offers-header {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem 1rem 0.75rem 1.25rem;
+  }
+
+  .floating-offers-close {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-midnight);
+    cursor: pointer;
+  }
+
+  .floating-offers-close:hover {
+    background: var(--color-mint);
+  }
+
+  .floating-offers-close:focus-visible {
+    outline: 2px solid var(--color-emerald);
+    outline-offset: 2px;
+  }
+
+  .floating-offers-content {
+    min-height: 0;
+    padding: 0 1.25rem 1rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  @media (min-width: 40rem) {
+    .floating-offers {
+      --offers-edge: max(1.5rem, env(safe-area-inset-right));
+      --offers-top: calc(var(--header-height) + max(1.5rem, env(safe-area-inset-top)));
+      --offers-trigger-height: 6.25rem;
+    }
+
+    .floating-offers-gift {
+      width: 72px;
+    }
+  }
+
+  @media (max-height: 36rem) {
+    .floating-offers-panel {
+      top: max(1rem, env(safe-area-inset-top));
+      max-height: calc(100svh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .floating-offers-entrance {
+      transform-origin: right center;
+      animation: offers-pop-in 900ms ease-out 1s both;
+    }
+
+    .floating-offers-float {
+      animation: offers-jump 6s ease-in-out 2.2s infinite;
+    }
+
+    .floating-offers-gift {
+      transition: transform 220ms ease;
+    }
+
+    .floating-offers-trigger:hover .floating-offers-gift {
+      transform: translate3d(0, -3px, 0) scale(1.08) rotate(-4deg);
+    }
+
+    .floating-offers:hover .floating-offers-float,
+    .floating-offers:focus-within .floating-offers-float,
+    .floating-offers:has(:popover-open) .floating-offers-float {
+      animation-play-state: paused;
+    }
+
+    .floating-offers:focus-within .floating-offers-entrance {
+      animation: none;
+    }
+
+    @keyframes offers-pop-in {
+      0% { opacity: 0; visibility: hidden; transform: translate3d(0, 22px, 0) scale(0.7) rotate(-10deg); }
+      1% { visibility: visible; }
+      45% { opacity: 1; transform: translate3d(0, -16px, 0) scale(1.12) rotate(5deg); }
+      65% { transform: translate3d(0, 4px, 0) scale(0.97) rotate(-3deg); }
+      82% { transform: translate3d(0, -5px, 0) scale(1.03) rotate(1deg); }
+      100% { opacity: 1; visibility: visible; transform: translate3d(0, 0, 0) scale(1) rotate(0); }
+    }
+
+    @keyframes offers-jump {
+      0%, 75%, 100% { transform: translate3d(0, 0, 0) rotate(0); }
+      82% { transform: translate3d(0, -12px, 0) rotate(-4deg); }
+      88% { transform: translate3d(0, 0, 0) rotate(2deg); }
+      93% { transform: translate3d(0, -4px, 0) rotate(0); }
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-floating-offers]");
+  const trigger = root?.querySelector<HTMLButtonElement>(".floating-offers-trigger");
+  const panel = root?.querySelector<HTMLDivElement>("#floating-offers-panel");
+
+  if (trigger && panel) {
+    panel.addEventListener("toggle", () => {
+      trigger.setAttribute("aria-expanded", String(panel.matches(":popover-open")));
+    });
+
+    panel.querySelector("a")?.addEventListener("click", () => panel.hidePopover());
+  }
+</script>
