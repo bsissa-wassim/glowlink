@@ -1,9 +1,32 @@
 ---
+import { Picture } from "astro:assets";
 import SectionHeading from "./SectionHeading.astro";
 import CareIcon from "./CareIcon.astro";
 import { homepageContent } from "../data/homepageContent";
+import referralPhoto from "../assets/offers/parrainage.jpg";
+import duoPhoto from "../assets/offers/duo.jpg";
 
 const content = homepageContent.offers;
+// Alexander Suhorucov: https://www.pexels.com/photo/cheerful-diverse-friends-talking-at-table-with-coffee-in-cafe-6457517/
+// Leonardo Zanini: https://www.pexels.com/photo/couple-walking-on-a-sunny-beach-19475229/
+// Photo license: https://www.pexels.com/license/
+const cards = [
+  {
+    photo: referralPhoto,
+    alt: "Deux amies échangent autour d’un café dans un espace chaleureux.",
+    icon: "gift",
+    title: content.referral.title,
+    paragraphs: content.referral.paragraphs,
+  },
+  {
+    photo: duoPhoto,
+    alt: "Un couple se promène main dans la main au bord de l’eau.",
+    icon: "people",
+    title: content.duo.title,
+    paragraphs: [content.duo.description],
+  },
+] as const;
+const photoSizes = "(min-width: 1024px) 488px, (min-width: 768px) calc((100vw - 3.5rem) / 2), (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)";
 const giftDecorations = [
   "left-[4%] top-[6%] size-8 -rotate-12",
   "right-[9%] top-[9%] size-16 rotate-12",
@@ -23,18 +46,34 @@ const giftDecorations = [
   <div class="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
     <SectionHeading id="offers-heading" title={content.title} />
     <div class="mt-9 grid gap-2 md:grid-cols-2">
-      <article class="flex flex-col items-start bg-midnight p-6 text-white sm:p-8">
-        <CareIcon name="gift" class="mb-5 size-8 text-mint" />
-        <h3 class="font-editorial text-3xl leading-snug tracking-tight">{content.referral.title}</h3>
-        <ul class="mt-5 space-y-4 text-sm leading-relaxed text-white/90">
-          {content.referral.paragraphs.map((paragraph) => <li>{paragraph}</li>)}
-        </ul>
-      </article>
-      <article class="flex flex-col items-start bg-midnight p-6 text-white sm:p-8">
-        <CareIcon name="people" class="mb-5 size-8 text-mint" />
-        <h3 class="font-editorial text-3xl leading-snug tracking-tight">{content.duo.title}</h3>
-        <p class="mt-5 text-sm leading-relaxed text-white/90">{content.duo.description}</p>
-      </article>
+      {cards.map(({ photo, alt, icon, title, paragraphs }) => (
+        <article class="flex min-w-0 flex-col overflow-hidden bg-midnight text-white">
+          <Picture
+            src={photo}
+            alt={alt}
+            formats={["avif"]}
+            fallbackFormat="webp"
+            width={960}
+            height={600}
+            widths={[320, 480, 640, 960]}
+            sizes={photoSizes}
+            fit="cover"
+            position="attention"
+            quality={70}
+            loading="lazy"
+            decoding="async"
+            pictureAttributes={{ class: "block w-full" }}
+            class="block aspect-[8/5] w-full object-cover"
+          />
+          <div class="flex flex-1 flex-col items-start p-6 sm:p-8">
+            <CareIcon name={icon} class="mb-5 size-8 text-mint" />
+            <h3 class="font-editorial text-3xl leading-snug tracking-tight">{title}</h3>
+            <ul class="mt-5 space-y-4 text-sm leading-relaxed text-white/90">
+              {paragraphs.map((paragraph) => <li>{paragraph}</li>)}
+            </ul>
+          </div>
+        </article>
+      ))}
     </div>
   </div>
 </section>
