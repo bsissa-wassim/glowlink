@@ -5,22 +5,28 @@ import CareIcon from "./CareIcon.astro";
 import { homepageContent } from "../data/homepageContent";
 import referralPhoto from "../assets/offers/parrainage.jpg";
 import duoPhoto from "../assets/offers/duo.jpg";
+import duoCouplePhoto from "../assets/offers/duo-couple.jpg";
+import duoFamilyPhoto from "../assets/offers/duo-famille.jpg";
 
 const content = homepageContent.offers;
 // Alexander Suhorucov: https://www.pexels.com/photo/cheerful-diverse-friends-talking-at-table-with-coffee-in-cafe-6457517/
+// Studio 31: https://www.pexels.com/photo/backview-of-female-friends-relaxing-by-the-seaside-9502555/
 // Leonardo Zanini: https://www.pexels.com/photo/couple-walking-on-a-sunny-beach-19475229/
+// Kindel Media: https://www.pexels.com/photo/a-mother-and-son-at-the-beach-7862553/
 // Photo license: https://www.pexels.com/license/
 const cards = [
   {
-    photo: referralPhoto,
-    alt: "Deux amies échangent autour d’un café dans un espace chaleureux.",
+    photos: [{ src: referralPhoto, alt: "Deux amies échangent autour d’un café dans un espace chaleureux." }],
     icon: "gift",
     title: content.referral.title,
     paragraphs: content.referral.paragraphs,
   },
   {
-    photo: duoPhoto,
-    alt: "Un couple se promène main dans la main au bord de l’eau.",
+    photos: [
+      { src: duoPhoto, alt: "Deux personnes assises face à la mer partagent un moment de détente." },
+      { src: duoCouplePhoto, alt: "Un couple se promène main dans la main au bord de l’eau." },
+      { src: duoFamilyPhoto, alt: "Une mère et son fils marchent au bord de l’eau." },
+    ],
     icon: "people",
     title: content.duo.title,
     paragraphs: [content.duo.description],
@@ -37,7 +43,7 @@ const giftDecorations = [
 ];
 ---
 
-<section id="offres" aria-labelledby="offers-heading" class="relative isolate overflow-hidden bg-mint/20">
+<section id="offres" data-reveal-children data-stagger-reveal data-reveal-stagger="180" aria-labelledby="offers-heading" class="relative isolate overflow-hidden bg-mint/20">
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 text-emerald/25">
     {giftDecorations.map((position) => (
       <span class:list={["absolute", position]}><CareIcon name="gift" class="size-full" /></span>
@@ -46,28 +52,36 @@ const giftDecorations = [
   <div class="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
     <SectionHeading id="offers-heading" title={content.title} />
     <div class="mt-9 grid gap-2 md:grid-cols-2">
-      {cards.map(({ photo, alt, icon, title, paragraphs }) => (
-        <article class="flex min-w-0 flex-col overflow-hidden bg-midnight text-white">
-          <Picture
-            src={photo}
-            alt={alt}
-            formats={["avif"]}
-            fallbackFormat="webp"
-            width={960}
-            height={600}
-            widths={[320, 480, 640, 960]}
-            sizes={photoSizes}
-            fit="cover"
-            position="attention"
-            quality={70}
-            loading="lazy"
-            decoding="async"
-            pictureAttributes={{ class: "block w-full" }}
-            class="block aspect-[8/5] w-full object-cover"
-          />
+      {cards.map(({ photos, icon, title, paragraphs }) => (
+        <article data-reveal-item data-reveal-effect="spring" class="flex min-w-0 flex-col overflow-hidden bg-midnight text-white">
+          <div role="img" aria-label={photos.map(({ alt }) => alt).join(" ")} tabindex={photos.length > 1 ? 0 : undefined} class="offer-photo-gallery aspect-[8/5] w-full overflow-hidden">
+            <div aria-hidden="true" class:list={["offer-photo-track", { "offer-photo-track--sliding": photos.length > 1 }]}>
+              {(photos.length > 1 ? [...photos, photos[0]] : photos).map(({ src }) => (
+                <div class="offer-photo-frame">
+                  <Picture
+                    src={src}
+                    alt=""
+                    formats={["avif"]}
+                    fallbackFormat="webp"
+                    width={960}
+                    height={600}
+                    widths={[320, 480, 640, 960]}
+                    sizes={photoSizes}
+                    fit="cover"
+                    position="attention"
+                    quality={70}
+                    loading="lazy"
+                    decoding="async"
+                    pictureAttributes={{ class: "block size-full" }}
+                    class="block size-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
           <div class="flex flex-1 flex-col items-start p-6 sm:p-8">
             <CareIcon name={icon} class="mb-5 size-8 text-mint" />
-            <h3 class="font-editorial text-3xl leading-snug tracking-tight">{title}</h3>
+            <h3 class="font-sans text-3xl leading-snug tracking-tight">{title}</h3>
             <ul class="mt-5 space-y-4 text-sm leading-relaxed text-white/90">
               {paragraphs.map((paragraph) => <li>{paragraph}</li>)}
             </ul>
@@ -77,3 +91,54 @@ const giftDecorations = [
     </div>
   </div>
 </section>
+
+<style>
+  .offer-photo-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  .offer-photo-frame {
+    flex: 0 0 100%;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .offer-photo-track--sliding {
+    width: 400%;
+  }
+
+  .offer-photo-track--sliding .offer-photo-frame {
+    flex-basis: 25%;
+  }
+
+  .offer-photo-gallery:focus-visible {
+    outline: 2px solid var(--color-emerald);
+    outline-offset: -4px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .offer-photo-track--sliding {
+      animation: offer-photos-scroll 18s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+    }
+
+    .offer-photo-gallery:hover .offer-photo-track--sliding,
+    .offer-photo-gallery:focus-within .offer-photo-track--sliding {
+      animation-play-state: paused;
+    }
+
+    @keyframes offer-photos-scroll {
+      0%, 25% { transform: translate3d(0, 0, 0); }
+      33.3333%, 58.3333% { transform: translate3d(-25%, 0, 0); }
+      66.6667%, 91.6667% { transform: translate3d(-50%, 0, 0); }
+      100% { transform: translate3d(-75%, 0, 0); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .offer-photo-track--sliding { width: 100%; }
+    .offer-photo-track--sliding .offer-photo-frame { flex-basis: 100%; }
+    .offer-photo-track--sliding .offer-photo-frame:not(:first-child) { display: none; }
+  }
+</style>

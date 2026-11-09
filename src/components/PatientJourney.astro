@@ -6,17 +6,18 @@ import { homepageContent } from "../data/homepageContent";
 const content = homepageContent.journey;
 ---
 
-<section id="parcours-patient" aria-labelledby="journey-heading" class="mx-auto max-w-5xl scroll-mt-8 px-4 py-12 sm:px-6 sm:py-20">
+<section id="parcours-patient" data-reveal-children aria-labelledby="journey-heading" class="mx-auto max-w-5xl scroll-mt-8 px-4 py-12 sm:px-6 sm:py-20">
   <SectionHeading id="journey-heading" title={content.title} tone="midnight" />
-  <ol class="journey-timeline mt-10 grid gap-8 md:mt-12 md:grid-cols-3 md:gap-8">
-    {content.steps.map(({ icon, title, description }, index) => (
-      <li class="relative min-w-0">
-        <details name="patient-journey" open={index === 0} class="group">
+  <ol class="mt-10 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-5">
+    {content.steps.map(({ icon, title, description }) => (
+      <li data-journey-step class="relative min-w-0">
+        <div class="journey-card h-full rounded-2xl border border-midnight/10 bg-mint/20 p-6 sm:p-7">
+        <details open class="group">
           <summary class="journey-summary relative cursor-pointer list-none focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-midnight">
-            <span class="relative z-10 mb-5 flex size-12 items-center justify-center bg-white text-emerald group-open:bg-midnight group-open:text-white motion-safe:transition-colors">
+            <span class="mb-5 flex size-12 items-center justify-center rounded-xl bg-white text-emerald group-open:bg-midnight group-open:text-white motion-safe:transition-colors">
               <CareIcon name={icon} />
             </span>
-            <h3 class="flex items-start justify-between gap-3 text-xl font-medium tracking-tight text-midnight">
+            <h3 class="flex items-start justify-between gap-3 text-xl font-bold tracking-tight text-midnight">
               {title}
               <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.25" class="mt-1 size-4 shrink-0 group-open:rotate-180 motion-safe:transition-transform">
                 <path d="m5 7.5 5 5 5-5" stroke-linecap="round" stroke-linejoin="round" />
@@ -25,6 +26,7 @@ const content = homepageContent.journey;
           </summary>
           <p class="mt-4 text-sm leading-relaxed text-midnight/90">{description}</p>
         </details>
+        </div>
       </li>
     ))}
   </ol>
@@ -32,17 +34,111 @@ const content = homepageContent.journey;
 
 <style>
   .journey-summary::-webkit-details-marker { display: none; }
-  @media (min-width: 48rem) {
-    .journey-timeline { position: relative; }
-    .journey-timeline::before {
-      content: "";
-      position: absolute;
-      top: 1.5rem;
-      right: 0;
-      left: 0;
-      height: 1px;
-      background: var(--color-midnight);
-      opacity: 0.18;
+
+  [data-journey-step]:focus-within .journey-card {
+    box-shadow: 0 14px 32px rgb(18 43 74 / 0.08);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    [data-journey-step]:hover .journey-card {
+      box-shadow: 0 14px 32px rgb(18 43 74 / 0.08);
     }
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .journey-card {
+      transition: transform 280ms ease, box-shadow 280ms ease;
+    }
+
+    [data-journey-step]:focus-within .journey-card {
+      transform: translateY(-8px);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      [data-journey-step]:hover .journey-card {
+        transform: translateY(-8px);
+      }
+    }
+
+    [data-journey-reveal="pending"] {
+      opacity: 0;
+      transform: translate3d(-44px, 0, 0);
+    }
+
+    [data-journey-reveal="visible"] {
+      opacity: 1;
+      transform: none;
+      transition: opacity 900ms ease-out, transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--journey-reveal-delay, 0ms);
+    }
+
+    [data-journey-step]:focus-within {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+  }
 </style>
+
+<script>
+  const journey = document.querySelector<HTMLElement>("#parcours-patient");
+  const steps = [...(journey?.querySelectorAll<HTMLElement>("[data-journey-step]") ?? [])];
+
+  if (journey && steps.length && "IntersectionObserver" in window) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let observer: IntersectionObserver | null = null;
+    let nextRevealAt = 0;
+    // Allow each 900ms entrance to finish, followed by a 700ms settling pause.
+    const sequenceInterval = 1600;
+
+    const reveal = (step: HTMLElement, delay = 0) => {
+      step.style.setProperty("--journey-reveal-delay", `${delay}ms`);
+      step.dataset.journeyReveal = "visible";
+      observer?.unobserve(step);
+    };
+
+    const update = () => {
+      observer?.disconnect();
+      nextRevealAt = 0;
+      if (reducedMotion.matches) {
+        steps.forEach((step) => step.removeAttribute("data-journey-reveal"));
+        return;
+      }
+
+      observer = new IntersectionObserver((entries) => {
+        const entering = entries
+          .filter((entry) => entry.isIntersecting && (entry.target as HTMLElement).dataset.journeyReveal === "pending")
+          .map((entry) => entry.target as HTMLElement)
+          .sort((a, b) => steps.indexOf(a) - steps.indexOf(b));
+
+        // Keep one sequence even when mobile steps enter in separate observer callbacks.
+        entering.forEach((step) => {
+          const now = performance.now();
+          const startAt = Math.max(now, nextRevealAt);
+          reveal(step, Math.round(startAt - now));
+          nextRevealAt = startAt + sequenceInterval;
+        });
+      }, { threshold: 0.2, rootMargin: "0px 0px -48px 0px" });
+
+      steps.forEach((step) => {
+        if (step.dataset.journeyReveal === "visible") return;
+        if (step.getBoundingClientRect().bottom < 0) {
+          reveal(step);
+        } else {
+          step.dataset.journeyReveal = "pending";
+          observer?.observe(step);
+        }
+      });
+    };
+
+    journey.addEventListener("focusin", (event) => {
+      if (!(event.target instanceof Element)) return;
+      const step = event.target.closest<HTMLElement>("[data-journey-step]");
+      if (step) reveal(step);
+    });
+
+    update();
+    reducedMotion.addEventListener("change", update);
+  }
+</script>

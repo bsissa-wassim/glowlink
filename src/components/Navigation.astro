@@ -32,7 +32,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
       Glowlink
     </span>
 
-    <nav aria-label="Navigation principale" class="mx-auto w-full max-w-sm md:max-w-none lg:w-auto">
+    <nav aria-label="Navigation principale" class="mx-auto w-full max-w-sm font-normal md:max-w-none lg:w-auto">
       <ul class="flex flex-wrap items-center justify-center lg:flex-nowrap lg:gap-1">
         {
           links.map(({ label, href, preview }) => {
@@ -48,7 +48,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
                   href={currentPath === "/" && href.startsWith("/#") ? href.slice(1) : href}
                   aria-current={isCurrentPage ? "page" : undefined}
                   class:list={[
-                    "flex min-h-11 items-center justify-center py-1.5 text-base font-medium motion-safe:transition-colors",
+                    "flex min-h-11 items-center justify-center py-1.5 text-base font-normal motion-safe:transition-colors",
                     preview.length > 0 ? "pl-2 pr-1" : "px-3",
                     isActive
                       ? "text-emerald-dark"

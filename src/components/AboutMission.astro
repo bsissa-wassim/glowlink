@@ -7,54 +7,136 @@ import { homepageContent } from "../data/homepageContent";
 interface Props { portrait?: ImageMetadata; }
 const { portrait } = Astro.props;
 const { about, mission } = homepageContent;
+const chapterEntrances = ["slide-left", "slide-right", "fade-up-scale"] as const;
+const chapterIcons = ["globe", "clinic", "leaf"] as const;
+const chapters = about.career.map((chapter, index) => {
+  const separator = chapter.indexOf(" : ");
+  return {
+    title: chapter.slice(0, separator + 2).replace(/^\d+\s*\/\s*/, ""),
+    description: chapter.slice(separator + 3),
+    icon: chapterIcons[index],
+    entrance: chapterEntrances[index],
+  };
+});
 ---
 
-<section id="a-propos" aria-labelledby="about-heading mission-heading" class="mx-auto max-w-5xl scroll-mt-8 px-4 py-12 sm:px-6 sm:py-16">
+<section id="a-propos" data-reveal-children data-stagger-reveal data-reveal-stagger="120" aria-labelledby="about-heading mission-heading" class="mx-auto max-w-5xl scroll-mt-8 px-4 py-12 sm:px-6 sm:py-16">
   <table role="table" aria-labelledby="about-heading mission-heading" class="w-full border-separate border-spacing-0 md:border-spacing-x-1">
     <tbody role="rowgroup" class="block md:table-row-group">
       <tr role="row" class="grid gap-2 md:table-row">
-        <td role="cell" class="block bg-mint/30 p-6 align-top sm:p-9 md:table-cell md:w-1/2">
+        <td role="cell" data-reveal-item data-reveal-effect="slide-left" class="block bg-mint/30 p-6 align-top sm:p-9 md:table-cell md:w-1/2">
           <p class="flex items-center gap-3 text-xs font-medium tracking-[0.16em] text-emerald">
             <CareIcon name="conversation" class="size-5 shrink-0" />
             {about.label}
           </p>
-          <h2 id="about-heading" class="mt-5 font-editorial text-3xl leading-[1.16] tracking-tight text-emerald-dark sm:text-4xl">{about.title}</h2>
+          <h2 id="about-heading" class="mt-5 font-sans text-3xl leading-[1.16] tracking-tight text-emerald-dark sm:text-4xl">{about.title}</h2>
           <p class="mt-5 text-sm leading-relaxed text-midnight/90">{about.description}</p>
-          <div id="fondatrice" class="mt-6 scroll-mt-8">
-            {portrait && (
-              <Picture
-                src={portrait}
-                alt="Portrait de Cheima Kochbati"
-                formats={["avif"]}
-                fallbackFormat="webp"
-                width={160}
-                height={160}
-                widths={[64, 80, 128, 160]}
-                sizes="(min-width: 640px) 80px, 64px"
-                quality={75}
-                fit="cover"
-                position="top"
-                loading="lazy"
-                decoding="async"
-                pictureAttributes={{ class: "mb-4 block" }}
-                class="block size-16 rounded-full border border-mint object-cover object-top sm:size-20"
-              />
-            )}
-            <p class="text-sm leading-relaxed text-midnight/90">{about.founder}</p>
-            <ol class="mt-5 space-y-5 text-sm leading-relaxed text-midnight/90">
-              {about.career.map((chapter) => <li>{chapter}</li>)}
-            </ol>
-          </div>
         </td>
-        <td id="mission" role="cell" class="block scroll-mt-8 bg-emerald-dark p-6 align-top text-white sm:p-9 md:table-cell md:w-1/2">
+        <td id="mission" role="cell" data-reveal-item data-reveal-effect="slide-right" class="block scroll-mt-8 bg-emerald-dark p-6 align-top text-white sm:p-9 md:table-cell md:w-1/2">
           <div class="flex items-center justify-between gap-4">
             <p class="text-xs font-medium tracking-[0.16em] text-mint">{mission.label}</p>
             <CareIcon name="leaf" class="size-7 shrink-0 text-mint" />
           </div>
-          <h2 id="mission-heading" class="mt-5 font-editorial text-3xl leading-[1.16] tracking-tight sm:text-4xl">{mission.title}</h2>
+          <h2 id="mission-heading" class="mt-5 font-sans text-3xl leading-[1.16] tracking-tight sm:text-4xl">{mission.title}</h2>
           {mission.paragraphs.map((paragraph) => <p class="mt-5 text-sm leading-relaxed">{paragraph}</p>)}
         </td>
       </tr>
     </tbody>
   </table>
+  <div id="fondatrice" class="mt-10 scroll-mt-8 sm:mt-12">
+    <header class="flex items-center gap-4 sm:gap-5">
+      {portrait && (
+        <Picture
+          src={portrait}
+          alt="Portrait de Cheima Kochbati"
+          formats={["avif"]}
+          fallbackFormat="webp"
+          width={160}
+          height={160}
+          widths={[64, 80, 128, 160]}
+          sizes="(min-width: 640px) 80px, 64px"
+          quality={75}
+          fit="cover"
+          position="top"
+          loading="lazy"
+          decoding="async"
+          pictureAttributes={{ class: "block shrink-0" }}
+          class="block size-16 rounded-full border border-mint object-cover object-top sm:size-20"
+        />
+      )}
+      <p id="founder-intro" class="max-w-2xl text-sm leading-relaxed text-midnight/90 sm:text-base">{about.founder}</p>
+    </header>
+    <ol data-stagger-reveal data-reveal-stagger="2000" aria-labelledby="founder-intro" class="mt-8 space-y-7 px-2 pb-3 sm:space-y-8">
+      {chapters.map(({ title, description, icon, entrance }) => (
+        <li data-reveal-item data-reveal-effect={entrance} class="founder-chapter">
+          <div class="founder-paper-stack">
+          <article class="founder-paper-card flex items-start gap-4 p-5 sm:gap-6 sm:p-7">
+            <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-mint/50 text-emerald sm:size-12">
+              <CareIcon name={icon} class="size-6" />
+            </span>
+            <div class="grid min-w-0 flex-1 gap-3 md:grid-cols-[0.85fr_1.4fr] md:items-center md:gap-8">
+              <h3 class="text-base leading-snug font-bold tracking-tight text-midnight sm:text-lg">{title}</h3>
+              <p class="text-sm leading-relaxed text-midnight/90">{description}</p>
+            </div>
+          </article>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
 </section>
+
+<style>
+  .founder-chapter {
+    --section-reveal-duration: 1600ms;
+  }
+
+  .founder-paper-stack {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .founder-paper-stack::before,
+  .founder-paper-stack::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgb(0 102 77 / 0.13);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  .founder-paper-stack::before {
+    z-index: -2;
+    background: #f1f7f4;
+    transform: translate(7px, 9px) rotate(0.45deg);
+    box-shadow: 0 4px 12px rgb(18 43 74 / 0.06);
+  }
+
+  .founder-paper-stack::after {
+    z-index: -1;
+    background: #f8fbf9;
+    transform: translate(3px, 4px) rotate(-0.25deg);
+  }
+
+  .founder-paper-card {
+    position: relative;
+    border: 1px solid rgb(0 102 77 / 0.15);
+    border-radius: 4px;
+    background: linear-gradient(145deg, #fff 0%, #fff 74%, #f7faf8 100%);
+    box-shadow: 0 2px 4px rgb(18 43 74 / 0.05), 0 12px 28px rgb(18 43 74 / 0.08);
+  }
+
+  .founder-chapter[data-reveal-effect="slide-left"] {
+    --reveal-x: -64px;
+  }
+
+  .founder-chapter[data-reveal-effect="slide-right"] {
+    --reveal-x: 64px;
+  }
+
+  .founder-chapter[data-reveal-effect="fade-up-scale"] {
+    --reveal-y: 36px;
+    --reveal-scale: 0.94;
+  }
+</style>

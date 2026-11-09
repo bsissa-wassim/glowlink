@@ -1,38 +1,48 @@
 <script>
-  const sections = [...document.querySelectorAll<HTMLElement>("main > section:not(.video-hero)")];
+  const sections = [...document.querySelectorAll<HTMLElement>("main > section:not(.video-hero):not([data-reveal-children])")];
+  const items = [...document.querySelectorAll<HTMLElement>("[data-stagger-reveal] [data-reveal-item]")];
+  const targets = [...sections, ...items];
 
-  if (sections.length && "IntersectionObserver" in window) {
+  if (targets.length && "IntersectionObserver" in window) {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let observer: IntersectionObserver | null = null;
 
-    const reveal = (section: HTMLElement) => {
-      section.dataset.sectionReveal = "visible";
-      observer?.unobserve(section);
+    const reveal = (target: HTMLElement, delay = 0) => {
+      target.style.setProperty("--section-reveal-delay", `${delay}ms`);
+      target.dataset.sectionReveal = "visible";
+      observer?.unobserve(target);
     };
 
     const update = () => {
       observer?.disconnect();
 
       if (reducedMotion.matches) {
-        sections.forEach((section) => section.removeAttribute("data-section-reveal"));
+        targets.forEach((target) => target.removeAttribute("data-section-reveal"));
         return;
       }
 
       observer = new IntersectionObserver((entries) => {
+        const groupCounts = new Map<Element, number>();
         entries.forEach((entry) => {
-          if (entry.isIntersecting) reveal(entry.target as HTMLElement);
+          if (!entry.isIntersecting) return;
+          const target = entry.target as HTMLElement;
+          const group = target.closest("[data-stagger-reveal]");
+          const index = group ? groupCounts.get(group) ?? 0 : 0;
+          if (group) groupCounts.set(group, index + 1);
+          const stagger = group ? Number(group.getAttribute("data-reveal-stagger") ?? 160) : 0;
+          reveal(target, index * stagger);
         });
       }, { rootMargin: "0px 0px -32px 0px", threshold: 0 });
 
-      sections.forEach((section) => {
-        if (section.dataset.sectionReveal === "visible") return;
+      targets.forEach((target) => {
+        if (target.dataset.sectionReveal === "visible") return;
 
         // Keep the initial viewport and restored scroll positions immediately readable.
-        if (section.getBoundingClientRect().top <= window.innerHeight) {
-          reveal(section);
+        if (target.getBoundingClientRect().top <= window.innerHeight) {
+          reveal(target);
         } else {
-          section.dataset.sectionReveal = "pending";
-          observer?.observe(section);
+          target.dataset.sectionReveal = "pending";
+          observer?.observe(target);
         }
       });
     };
@@ -50,21 +60,65 @@
 
 <style is:global>
   @media (prefers-reduced-motion: no-preference) {
+    [data-reveal-effect="slide-left"] {
+      --reveal-x: -36px;
+      --reveal-y: 0px;
+    }
+
+    [data-reveal-effect="slide-right"] {
+      --reveal-x: 36px;
+      --reveal-y: 0px;
+    }
+
+    [data-reveal-effect="slide-down"] {
+      --reveal-y: -36px;
+    }
+
+    [data-reveal-effect="scale"] {
+      --reveal-y: 0px;
+      --reveal-scale: 0.94;
+    }
+
+    [data-reveal-effect="fade-up-scale"] {
+      --reveal-x: 0px;
+      --reveal-y: 24px;
+      --reveal-scale: 0.96;
+    }
+
+    [data-reveal-effect="spring"] {
+      --reveal-y: 32px;
+      --reveal-scale: 0.97;
+    }
+
     [data-section-reveal="pending"] {
       opacity: 0;
-      transform: translate3d(0, 24px, 0);
+      transform: translate3d(var(--reveal-x, 0px), var(--reveal-y, 24px), 0) scale(var(--reveal-scale, 1));
     }
 
     [data-section-reveal="visible"] {
       opacity: 1;
       transform: none;
-      transition: opacity 650ms ease-out, transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity var(--section-reveal-duration, 650ms) ease-out, transform var(--section-reveal-duration, 650ms) cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--section-reveal-delay, 0ms);
+    }
+
+    [data-section-reveal="visible"][data-reveal-effect="spring"] {
+      animation: card-spring-entrance 800ms ease-out var(--section-reveal-delay, 0ms) both;
+      transition: none;
     }
 
     [data-section-reveal]:focus-within {
       opacity: 1;
       transform: none;
       transition: none;
+      animation: none;
+    }
+
+    @keyframes card-spring-entrance {
+      0% { opacity: 0; transform: translate3d(0, 32px, 0) scale(0.97); }
+      60% { opacity: 1; transform: translate3d(0, -5px, 0) scale(1.01); }
+      82% { transform: translate3d(0, 2px, 0) scale(0.998); }
+      100% { opacity: 1; transform: none; }
     }
   }
 </style>

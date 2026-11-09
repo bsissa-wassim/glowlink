@@ -58,11 +58,8 @@ export const homepageContent = {
     ]
   },
   "network": {
-    "title": "La Tunisie & Notre Réseau Médical d'Excellence",
-    "headers": [
-      "Pilier de Sécurité & Qualité",
-      "Engagement & Garanties GlowLink"
-    ],
+    "title": "Sécurité & Qualité",
+    "subtitle": "Des repères clairs pour votre parcours en Tunisie.",
     "rows": [
       [
         "Destination Phare du Tourisme Médical",
@@ -70,7 +67,7 @@ export const homepageContent = {
       ],
       [
         "Chirurgiens Hautement Qualifiés",
-        "Sélection rigoureuse de praticiens inscrits au Conseil de l'Ordre, formés en Tunisie, en France et à l'international, bénéficiant d'une solide expérience clinique."
+        "Sélection rigoureuse de praticiens inscrits au Conseil de l’Ordre, formés en Tunisie, en France et à l’international, bénéficiant d’une solide expérience clinique."
       ],
       [
         "Cliniques & Cabinets de Pointe",

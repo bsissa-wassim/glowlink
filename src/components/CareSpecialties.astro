@@ -21,7 +21,7 @@ const specialties = [
 ] as const;
 ---
 
-<section id="specialites" aria-labelledby="specialties-heading" class="specialties-section relative isolate overflow-hidden bg-mint/20">
+<section id="specialites" data-reveal-children data-stagger-reveal data-reveal-stagger="140" aria-labelledby="specialties-heading" class="specialties-section relative isolate overflow-hidden bg-mint/20">
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.20]">
     <div class="specialties-background-track">
       {[...backgrounds, backgrounds[0]].map(({ src, position }) => (
@@ -46,25 +46,17 @@ const specialties = [
   </div>
   <div class="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
     <SectionHeading id="specialties-heading" title={homepageContent.specialties.title} />
-    <table aria-labelledby="specialties-heading" class="mt-9 w-full border-collapse text-left">
-      <thead>
-        <tr>
-          <th scope="col" class="pb-4 text-sm font-medium text-emerald-dark">{homepageContent.specialties.header}</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-emerald/10">
-        {specialties.map(({ id, icon }, index) => (
-          <tr id={id} class="scroll-mt-8">
-            <td class="py-5">
-              <div class="flex items-center gap-4">
-                <CareIcon name={icon} class="size-8 shrink-0 text-emerald" />
-                <span class="text-lg leading-snug font-medium tracking-tight text-emerald-dark">{homepageContent.specialties.rows[index]}</span>
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <p id="specialties-categories" class="mt-8 text-sm font-medium text-emerald-dark">{homepageContent.specialties.header}</p>
+    <ul aria-labelledby="specialties-heading specialties-categories" class="mt-4 grid gap-4 md:grid-cols-3 md:gap-5">
+      {specialties.map(({ id, icon }, index) => (
+        <li id={id} data-reveal-item data-reveal-effect="scale" class="min-w-0 scroll-mt-8 rounded-2xl border border-midnight/10 bg-white/90 p-6 sm:p-7">
+          <span class="mb-5 flex size-12 items-center justify-center rounded-xl bg-midnight text-white">
+            <CareIcon name={icon} />
+          </span>
+          <h3 class="text-xl leading-snug font-bold tracking-tight text-midnight">{homepageContent.specialties.rows[index]}</h3>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
 

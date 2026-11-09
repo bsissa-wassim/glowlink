@@ -5,8 +5,7 @@
   --color-emerald-dark: #00664d;
   --color-mint: #ddf2ed;
   --color-midnight: #122b4a;
-  --font-sans: "Segoe UI", system-ui, sans-serif;
-  --font-editorial: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --font-sans: Arial, Helvetica, sans-serif;
 }
 
 @layer base {
@@ -43,7 +42,17 @@
     background: #ffffff;
     color: var(--color-midnight);
     font-family: var(--font-sans);
+    font-weight: 500;
     -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
   }
 
   a:focus-visible {

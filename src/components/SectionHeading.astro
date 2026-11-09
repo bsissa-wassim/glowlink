@@ -11,7 +11,7 @@ const { id, eyebrow, title, tone = "emerald" } = Astro.props;
 
 <header class="max-w-3xl">
   {eyebrow && <p class="mb-4 text-xs font-medium tracking-[0.16em] text-emerald uppercase">{eyebrow}</p>}
-  <h2 id={id} class:list={["font-editorial text-4xl leading-[1.12] tracking-tight sm:text-5xl", tone === "midnight" ? "text-midnight" : "text-emerald-dark"]}>
+  <h2 id={id} class:list={["font-sans text-4xl leading-[1.12] tracking-tight sm:text-5xl", tone === "midnight" ? "text-midnight" : "text-emerald-dark"]}>
     {title}
   </h2>
   {Astro.slots.has("default") && (
