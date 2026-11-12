@@ -1,0 +1,41 @@
+
+id: interventions_glowlink
+title: Interventions esthétiques et réparatrices
+total: 22
+
+categories[3]{id,nom}:
+  visage,Interventions du visage
+  corps,Interventions du corps
+  reparatrice,Chirurgie réparatrice
+
+interventions[22]{id,nom,categorie,description}:
+  rhinoplastie,Rhinoplastie,visage,Chirurgie visant à modifier la forme ou certaines caractéristiques du nez
+  blepharoplastie,Blépharoplastie,visage,Chirurgie des paupières visant à traiter un excès de peau ou certaines poches graisseuses
+  liposuccion_double_menton,Liposuccion du double menton,visage,Aspiration ciblée de graisse sous le menton afin de modifier le contour de cette zone
+  bichectomie,Bichectomie,visage,Retrait partiel des boules graisseuses de Bichat pour modifier le volume des joues
+  lifting_cervico_facial,Lifting cervico-facial,visage,Intervention visant à corriger certains relâchements des tissus du visage et du cou
+  lifting_temporal,Lifting temporal,visage,Intervention visant à repositionner les tissus de la région des tempes et du sourcil externe
+  lifting_frontal,Lifting frontal,visage,Chirurgie visant à repositionner les tissus du front et des sourcils
+  fox_eyes,Fox Eyes,visage,Terme esthétique désignant différentes techniques visant à modifier l'orientation apparente du regard
+  otoplastie,Otoplastie,visage,Intervention visant à corriger la forme ou la position des oreilles
+  lipofilling_visage,Lipofilling du visage,visage,Transfert de graisse autologue pour restaurer ou modifier certains volumes du visage
+  protheses_mammaires,Prothèses mammaires,corps,Augmentation mammaire réalisée à l'aide d'implants
+  lifting_seins,Lifting des seins,corps,Intervention visant à corriger la ptose mammaire et repositionner les tissus
+  lifting_seins_protheses,Lifting des seins avec prothèses,corps,Association d'une mastopexie et de la pose d'implants mammaires
+  lifting_bras,Lifting des bras,corps,Intervention visant à retirer certains excès cutanés et remodeler les bras
+  lifting_cuisses,Lifting des cuisses,corps,Intervention visant à corriger les excès de peau au niveau des cuisses
+  lipoedeme,Lipœdème,corps,Affection chronique du tissu adipeux pouvant nécessiter une prise en charge spécialisée médicale ou chirurgicale
+  lifting_fesses,Lifting des fesses,corps,Intervention visant à retirer un excès cutané et repositionner les tissus des fesses
+  bodylift,Bodylift,corps,Chirurgie de remodelage corporel visant notamment à traiter des excès cutanés importants
+  lipofilling_mollets,Lipofilling des mollets,corps,Transfert de graisse autologue visant à modifier le volume des mollets
+  labiaplastie,Labiaplastie ou nymphoplastie,corps,Chirurgie visant à modifier la taille ou la forme des petites lèvres
+  fente_labiale,Fente labiale,reparatrice,Chirurgie réparatrice visant à corriger une fente congénitale de la lèvre
+  fente_palatine,Fente palatine,reparatrice,Chirurgie réparatrice visant à corriger une fente congénitale du palais
+
+regles:
+  contenu: Informations générales uniquement
+  diagnostic: Interdit à l'assistant
+  recommandation_personnalisee: Interdite à l'assistant
+  risques_et_indications: Nécessitent une information médicale validée
+  disponibilite: À confirmer auprès de l'équipe
+  devis: Orienter vers l'équipe GlowLink

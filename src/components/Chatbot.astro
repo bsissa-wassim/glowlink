@@ -1,0 +1,300 @@
+<aside class="chatbot" aria-label="Assistant GlowLink">
+  <section id="chatbot-panel" class="chatbot-panel" role="dialog" aria-labelledby="chatbot-title" hidden>
+    <header class="chatbot-header">
+      <div>
+        <h2 id="chatbot-title">Assistant GlowLink</h2>
+        <p>Une question sur votre séjour ?</p>
+      </div>
+      <button class="chatbot-close" type="button" aria-label="Fermer la conversation">×</button>
+    </header>
+    <div class="chatbot-messages" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions">
+      <p class="chatbot-message">Bonjour ! Je suis l’assistant GlowLink. Comment puis-je vous aider ?</p>
+    </div>
+    <p class="chatbot-status" role="status"></p>
+    <form class="chatbot-form">
+      <label class="sr-only" for="chatbot-question">Votre question</label>
+      <input id="chatbot-question" name="question" type="text" placeholder="Écrivez votre question…" minlength="2" maxlength="1000" required autocomplete="off" />
+      <button type="submit" aria-label="Envoyer la question">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="m21 3-7 18-4-7-7-4 18-7ZM10 14 21 3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </form>
+  </section>
+
+  <button class="chatbot-trigger" type="button" aria-label="Ouvrir la conversation avec l’assistant GlowLink" aria-controls="chatbot-panel" aria-expanded="false">
+    <svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+      <path d="M24 7v6M8 24H5v9h3m32-9h3v9h-3" stroke-linecap="round" />
+      <circle cx="24" cy="5" r="2" fill="currentColor" stroke="none" />
+      <rect x="9" y="14" width="30" height="27" rx="9" />
+      <circle cx="18" cy="25" r="2.5" fill="currentColor" stroke="none" />
+      <circle cx="30" cy="25" r="2.5" fill="currentColor" stroke="none" />
+      <path d="M19 33h10" stroke-linecap="round" />
+    </svg>
+  </button>
+</aside>
+
+<style>
+  .chatbot {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 50;
+    color: var(--color-midnight);
+  }
+
+  button { cursor: pointer; }
+  button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--color-emerald);
+    outline-offset: 4px;
+  }
+
+  .chatbot-trigger {
+    display: grid;
+    width: 64px;
+    height: 64px;
+    margin-left: auto;
+    place-items: center;
+    border: 3px solid var(--color-mint);
+    border-radius: 50%;
+    background: var(--color-emerald);
+    color: white;
+    box-shadow: 0 8px 28px rgb(0 102 77 / 0.28);
+  }
+
+  .chatbot-trigger:hover { background: var(--color-emerald-dark); }
+
+  .chatbot-panel {
+    position: absolute;
+    right: 0;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    width: min(370px, calc(100vw - 2rem - env(safe-area-inset-right)));
+    height: min(480px, calc(100dvh - 7rem - env(safe-area-inset-bottom)));
+    overflow: hidden;
+    border: 1px solid var(--color-mint);
+    border-radius: 1.25rem;
+    background: white;
+    box-shadow: 0 16px 48px rgb(18 43 74 / 0.2);
+    animation: chat-slide-in 350ms ease both;
+  }
+
+  .chatbot-panel[hidden] { display: none; }
+  .chatbot-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-emerald-dark);
+    color: white;
+  }
+  .chatbot-header h2 { margin: 0; font-size: 1rem; }
+  .chatbot-header p { margin: 0.25rem 0 0; font-size: 0.75rem; }
+  .chatbot-close {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: white;
+    font-size: 1.75rem;
+  }
+  .chatbot-close:focus-visible { outline-color: white; }
+  .chatbot-messages {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1rem;
+  }
+  .chatbot-messages :global(.chatbot-message) {
+    width: fit-content;
+    max-width: 90%;
+    margin: 0 0 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem 1rem 1rem 0.25rem;
+    background: var(--color-mint);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .chatbot-messages :global(.chatbot-message.is-user) {
+    margin-left: auto;
+    border-radius: 1rem 1rem 0.25rem 1rem;
+    background: var(--color-emerald);
+    color: white;
+  }
+  .chatbot-status { margin: 0; padding: 0 1rem; font-size: 0.75rem; }
+  .chatbot-form {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-top: 1px solid var(--color-mint);
+  }
+  .chatbot-form input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.65rem;
+    border: 1px solid var(--color-mint);
+    border-radius: 0.75rem;
+    font: inherit;
+    font-size: 1rem;
+  }
+  .chatbot-form button {
+    display: grid;
+    width: 44px;
+    flex-shrink: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 0.75rem;
+    background: var(--color-emerald);
+    color: white;
+  }
+  .chatbot-form button:disabled { opacity: 0.5; cursor: wait; }
+  @keyframes chat-slide-in {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .chatbot-panel { animation: none; }
+  }
+</style>
+
+<script>
+  import { getChatHistory, type ChatExchange } from "../lib/assistant/chat-history";
+
+  const root = document.querySelector<HTMLElement>(".chatbot");
+  if (root) {
+    const trigger = root.querySelector<HTMLButtonElement>(".chatbot-trigger")!;
+    const panel = root.querySelector<HTMLElement>(".chatbot-panel")!;
+    const close = root.querySelector<HTMLButtonElement>(".chatbot-close")!;
+    const form = root.querySelector<HTMLFormElement>(".chatbot-form")!;
+    const input = form.querySelector<HTMLInputElement>("input")!;
+    const submit = form.querySelector<HTMLButtonElement>("button")!;
+    const messages = root.querySelector<HTMLElement>(".chatbot-messages")!;
+    const status = root.querySelector<HTMLElement>(".chatbot-status")!;
+    let pending = false;
+    let history: ChatExchange[] = [];
+    function setOpen(open: boolean) {
+      panel.hidden = !open;
+      trigger.setAttribute("aria-expanded", String(open));
+      trigger.setAttribute("aria-label", open ? "Fermer la conversation" : "Ouvrir la conversation avec l’assistant GlowLink");
+      if (open) {
+        input.focus();
+      }
+      else trigger.focus();
+    }
+
+    trigger.addEventListener("click", () => setOpen(panel.hidden));
+    close.addEventListener("click", () => setOpen(false));
+    root.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !panel.hidden) setOpen(false);
+    });
+
+    function addMessage(text: string, user = false) {
+      const message = document.createElement("p");
+      message.className = user ? "chatbot-message is-user" : "chatbot-message";
+      message.textContent = text;
+      messages.append(message);
+      messages.scrollTop = messages.scrollHeight;
+      return message;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const question = input.value.trim();
+      if (pending || question.length < 2) return;
+      pending = true;
+      submit.disabled = true;
+      addMessage(question, true);
+      input.value = "";
+      status.textContent = "L’assistant vous répond…";
+      messages.setAttribute("aria-busy", "true");
+      let answer: HTMLParagraphElement | undefined;
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "text/event-stream",
+          },
+          body: JSON.stringify({ question, history }),
+          signal: AbortSignal.timeout(60000),
+        });
+        if (response.status === 429) {
+          throw new Error("Trop de questions. Veuillez réessayer dans une minute.");
+        }
+
+        if (!response.ok || !response.body || !response.headers.get("content-type")?.includes("text/event-stream")) {
+          throw new Error("L’assistant est temporairement indisponible. Veuillez réessayer.");
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        let completed = false;
+        answer = addMessage("");
+
+        try {
+          while (!completed) {
+            const { value, done } = await reader.read();
+            buffer += decoder.decode(value, { stream: !done });
+            let boundary: RegExpExecArray | null;
+
+            while ((boundary = /\r?\n\r?\n/.exec(buffer))) {
+              const event = buffer.slice(0, boundary.index);
+              buffer = buffer.slice(boundary.index + boundary[0].length);
+              const data = event.split(/\r?\n/)
+                .filter((line) => line.startsWith("data:"))
+                .map((line) => line.slice(5).replace(/^ /, ""))
+                .join("\n");
+
+              if (!data) continue;
+              if (data === "[DONE]") {
+                completed = true;
+                break;
+              }
+
+              const chunk = JSON.parse(data);
+              if (chunk.error || /^event:\s*error\s*$/m.test(event)) {
+                throw new Error("La réponse a été interrompue. Veuillez réessayer.");
+              }
+              const content = chunk.choices?.[0]?.delta?.content ?? chunk.response;
+              if (typeof content === "string" && content) {
+                answer.textContent += content;
+                status.textContent = "";
+                messages.scrollTop = messages.scrollHeight;
+              }
+            }
+
+            if (done) break;
+          }
+
+          if (!completed || !answer.textContent?.trim()) {
+            throw new Error("La réponse a été interrompue. Veuillez réessayer.");
+          }
+          history = getChatHistory([...history, { question, answer: answer.textContent }]);
+        } finally {
+          await reader.cancel().catch(() => {});
+          reader.releaseLock();
+        }
+        status.textContent = "";
+      } catch (error) {
+        if (!answer?.textContent) answer?.remove();
+        status.textContent = error instanceof Error && error.name === "Error"
+          ? error.message
+          : "L’assistant est temporairement indisponible. Veuillez réessayer.";
+        if (!input.value) input.value = question;
+      } finally {
+        pending = false;
+        submit.disabled = false;
+        messages.setAttribute("aria-busy", "false");
+      }
+    });
+  }
+</script>

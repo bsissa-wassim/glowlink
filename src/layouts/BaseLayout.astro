@@ -1,5 +1,6 @@
 ---
 import Navigation from "../components/Navigation.astro";
+import Chatbot from "../components/Chatbot.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -31,5 +32,6 @@ const { title, hero = false } = Astro.props;
       <slot />
     </main>
     <slot name="overlay" />
+    <Chatbot />
   </body>
 </html>

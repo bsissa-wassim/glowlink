@@ -1,0 +1,15 @@
+
+id: offres_glowlink
+title: Offres GlowLink
+
+offres[2]{id,nom,description,details_confirmes}:
+  duo,Offre Duo,Offre destinée aux personnes intéressées par une expérience à deux,false
+  parrainage,Offre Parrainage,Programme destiné aux personnes souhaitant recommander GlowLink,false
+
+regles:
+  tarifs: Non renseignés
+  reductions: Non renseignées
+  conditions: À confirmer auprès de l'équipe
+  eligibilite: À confirmer auprès de l'équipe
+  paiement: Contacter l'équipe GlowLink
+  objectif_assistant: Présenter les offres puis orienter vers l'équipe pour les conditions détaillées

@@ -1,0 +1,23 @@
+
+name: GlowLink
+type: Conciergerie médicale
+country: Tunisie
+slogan: Votre bien-être commence avant votre soin.
+
+mission: Accompagner les patients dans l'organisation de leur séjour médical en Tunisie, en associant coordination des soins, accompagnement personnalisé et bien-être.
+
+concept:
+  approche: Conciergerie médicale et accompagnement humain
+  specialite: Séjours médicaux et interventions esthétiques
+  experience: Détente et sérénité avant les soins
+
+founder:
+  name: Cheima Kochbati
+  profession: Infirmière anesthésiste
+  experience[3]: Tunisie,Arabie saoudite,Dubaï
+  education: Maîtrise en gestion des services de santé au Canada
+
+assistant:
+  role: Information et orientation des visiteurs
+  topics[4]: Conciergerie médicale,Parcours GlowLink,Interventions,Offres
+  redirect[3]: Devis,Paiements,Tarifs

@@ -1,0 +1,40 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"compatibility_date": "2026-11-10",
+	"compatibility_flags": [
+		"global_fetch_strictly_public"
+	],
+	"name": "glowlink",
+	"main": "@astrojs/cloudflare/entrypoints/server",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"ai": {
+		"binding": "AI"
+	},
+	"ratelimits": [
+		{
+			"name": "CHAT_RATE_LIMITER",
+			"namespace_id": "1001",
+			"simple": { "limit": 10, "period": 60 }
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "KNOWLEDGE",
+			"id": "40ebe68ade6948dea5737686ccd6f4d8",
+			"remote": true
+		}
+	],
+	"vectorize": [
+		{
+			"binding": "VECTORIZE",
+			"index_name": "glowlink-vectors",
+			"remote": true
+		}
+	]
+}

@@ -1,0 +1,20 @@
+
+id: parcours_glowlink
+title: Le parcours GlowLink
+description: Un accompagnement personnalisé pour organiser un séjour médical en Tunisie.
+
+etapes[6]{id,titre,description}:
+  1,Premier contact,Échange avec l'équipe GlowLink pour présenter le projet de séjour et les besoins du visiteur
+  2,Orientation,Coordination des échanges avec les professionnels concernés selon la demande
+  3,Organisation du séjour,Présentation des modalités d'accueil et des services disponibles après confirmation par l'équipe
+  4,Bien-être et détente,Expérience de relaxation avant les soins selon la formule et les prestations confirmées
+  5,Intervention médicale,Intervention réalisée par un professionnel de santé habilité et non par GlowLink
+  6,Après-soin,Coordination du suivi et des modalités de séjour selon les indications des professionnels concernés
+
+regles:
+  role_glowlink: Conciergerie médicale et coordination du parcours
+  decision_medicale: Réservée aux professionnels de santé
+  prestations_incluses: À confirmer directement auprès de l'équipe
+  devis: Contacter l'équipe GlowLink
+  paiement: Contacter l'équipe GlowLink
+  disponibilites: Contacter l'équipe GlowLink
