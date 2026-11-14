@@ -1,6 +1,10 @@
 ---
 import SectionHeading from "./SectionHeading.astro";
-import { homepageContent } from "../data/homepageContent";
+import { getHomepageContent } from "../data/homepageContent";
+import { getLanguage } from "../lib/i18n";
+
+const lang = getLanguage(Astro);
+const homepageContent = getHomepageContent(lang);
 
 const content = homepageContent.publications;
 ---

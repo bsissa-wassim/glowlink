@@ -14,10 +14,21 @@ import PublicationsSection from "../components/PublicationsSection.astro";
 import ScrollReveal from "../components/ScrollReveal.astro";
 import FloatingOffers from "../components/FloatingOffers.astro";
 import OffersBanner from "../components/OffersBanner.astro";
-import { homepageContent } from "../data/homepageContent";
+import { getHomepageContent } from "../data/homepageContent";
+import { getLanguage, createTranslator } from "../lib/i18n";
+
+export const prerender = false;
+const lang = getLanguage(Astro);
+const t = createTranslator(lang);
+const homepageContent = getHomepageContent(lang);
 ---
 
-<BaseLayout title="Accueil" hero>
+<BaseLayout title={t("Accueil", "Home")} hero lang={lang}>
+  <nav slot="navigation" aria-label={t("Choisir la langue", "Choose language")} class="flex justify-center gap-1 lg:justify-self-end">
+    {(["fr", "en"] as const).map((language) => (
+      <a href={`/?lang=${language}`} lang={language} hreflang={language} aria-current={language === lang ? "true" : undefined} class:list={["flex min-h-11 min-w-11 items-center justify-center rounded-full text-sm font-semibold focus-visible:outline-sky", language === lang ? "bg-sky text-midnight" : "text-white hover:bg-white/10"]}>{language.toUpperCase()}</a>
+    ))}
+  </nav>
   <link
     slot="head"
     rel="preload"
@@ -35,13 +46,13 @@ import { homepageContent } from "../data/homepageContent";
         href="#contact"
         class="inline-flex min-h-11 items-center justify-center rounded-full bg-midnight px-5 py-3 text-sm font-semibold text-white hover:bg-midnight/90 focus-visible:outline-white motion-safe:transition-colors"
       >
-        Obtenir un devis gratuit
+        {t("Obtenir un devis gratuit", "Get a free quote")}
       </a>
       <a
         href="#parcours-patient"
         class="inline-flex min-h-11 items-center text-sm font-medium text-white underline decoration-white/50 underline-offset-4 hover:decoration-white focus-visible:outline-white motion-safe:transition-colors"
       >
-        Découvrir l’expérience
+        {t("Découvrir l’expérience", "Discover the experience")}
       </a>
     </Fragment>
   </VideoHero>

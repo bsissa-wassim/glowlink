@@ -1,20 +1,26 @@
-<aside class="chatbot" aria-label="Assistant GlowLink">
+---
+import { getLanguage, createTranslator } from "../lib/i18n";
+
+const t = createTranslator(getLanguage(Astro));
+---
+
+<aside class="chatbot" aria-label={t("Assistant GlowLink", "GlowLink Assistant")}>
   <section id="chatbot-panel" class="chatbot-panel" role="dialog" aria-labelledby="chatbot-title" hidden>
     <header class="chatbot-header">
       <div>
-        <h2 id="chatbot-title">Assistant GlowLink</h2>
-        <p>Une question sur votre séjour ?</p>
+        <h2 id="chatbot-title">{t("Assistant GlowLink", "GlowLink Assistant")}</h2>
+        <p>{t("Une question sur votre séjour ?", "A question about your stay?")}</p>
       </div>
-      <button class="chatbot-close" type="button" aria-label="Fermer la conversation">×</button>
+      <button class="chatbot-close" type="button" aria-label={t("Fermer la conversation", "Close conversation")}>×</button>
     </header>
     <div class="chatbot-messages" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions">
-      <p class="chatbot-message">Bonjour ! Je suis l’assistant GlowLink. Comment puis-je vous aider ?</p>
+      <p class="chatbot-message">{t("Bonjour ! Je suis l’assistant GlowLink. Comment puis-je vous aider ?", "Hello! I’m the GlowLink assistant. How can I help you?")}</p>
     </div>
     <p class="chatbot-status" role="status"></p>
     <form class="chatbot-form">
-      <label class="sr-only" for="chatbot-question">Votre question</label>
-      <input id="chatbot-question" name="question" type="text" placeholder="Écrivez votre question…" minlength="2" maxlength="1000" required autocomplete="off" />
-      <button type="submit" aria-label="Envoyer la question">
+      <label class="sr-only" for="chatbot-question">{t("Votre question", "Your question")}</label>
+      <input id="chatbot-question" name="question" type="text" placeholder={t("Écrivez votre question…", "Type your question…")} minlength="2" maxlength="1000" required autocomplete="off" />
+      <button type="submit" aria-label={t("Envoyer la question", "Send question")}>
         <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path d="m21 3-7 18-4-7-7-4 18-7ZM10 14 21 3" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
@@ -22,7 +28,7 @@
     </form>
   </section>
 
-  <button class="chatbot-trigger" type="button" aria-label="Ouvrir la conversation avec l’assistant GlowLink" aria-controls="chatbot-panel" aria-expanded="false">
+  <button class="chatbot-trigger" type="button" aria-label={t("Ouvrir la conversation avec l’assistant GlowLink", "Open a conversation with the GlowLink assistant")} aria-controls="chatbot-panel" aria-expanded="false">
     <svg viewBox="0 0 48 48" width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
       <path d="M24 7v6M8 24H5v9h3m32-9h3v9h-3" stroke-linecap="round" />
       <circle cx="24" cy="5" r="2" fill="currentColor" stroke="none" />
@@ -59,7 +65,7 @@
     border-radius: 50%;
     background: var(--color-emerald);
     color: white;
-    box-shadow: 0 8px 28px rgb(0 102 77 / 0.28);
+    box-shadow: 0 8px 28px rgb(5 112 85 / 0.28);
   }
 
   .chatbot-trigger:hover { background: var(--color-emerald-dark); }
@@ -76,7 +82,7 @@
     border: 1px solid var(--color-mint);
     border-radius: 1.25rem;
     background: white;
-    box-shadow: 0 16px 48px rgb(18 43 74 / 0.2);
+    box-shadow: 0 16px 48px rgb(18 42 69 / 0.2);
     animation: chat-slide-in 350ms ease both;
   }
 
@@ -166,6 +172,9 @@
 
 <script>
   import { getChatHistory, type ChatExchange } from "../lib/assistant/chat-history";
+  import { createTranslator } from "../lib/i18n";
+
+  const t = createTranslator(document.documentElement.lang === "en" ? "en" : "fr");
 
   const root = document.querySelector<HTMLElement>(".chatbot");
   if (root) {
@@ -182,7 +191,7 @@
     function setOpen(open: boolean) {
       panel.hidden = !open;
       trigger.setAttribute("aria-expanded", String(open));
-      trigger.setAttribute("aria-label", open ? "Fermer la conversation" : "Ouvrir la conversation avec l’assistant GlowLink");
+      trigger.setAttribute("aria-label", open ? t("Fermer la conversation", "Close conversation") : t("Ouvrir la conversation avec l’assistant GlowLink", "Open a conversation with the GlowLink assistant"));
       if (open) {
         input.focus();
       }
@@ -212,7 +221,7 @@
       submit.disabled = true;
       addMessage(question, true);
       input.value = "";
-      status.textContent = "L’assistant vous répond…";
+      status.textContent = t("L’assistant vous répond…", "The assistant is replying…");
       messages.setAttribute("aria-busy", "true");
       let answer: HTMLParagraphElement | undefined;
 
@@ -227,11 +236,11 @@
           signal: AbortSignal.timeout(60000),
         });
         if (response.status === 429) {
-          throw new Error("Trop de questions. Veuillez réessayer dans une minute.");
+          throw new Error(t("Trop de questions. Veuillez réessayer dans une minute.", "Too many questions. Please try again in a minute."));
         }
 
         if (!response.ok || !response.body || !response.headers.get("content-type")?.includes("text/event-stream")) {
-          throw new Error("L’assistant est temporairement indisponible. Veuillez réessayer.");
+          throw new Error(t("L’assistant est temporairement indisponible. Veuillez réessayer.", "The assistant is temporarily unavailable. Please try again."));
         }
 
         const reader = response.body.getReader();
@@ -262,7 +271,7 @@
 
               const chunk = JSON.parse(data);
               if (chunk.error || /^event:\s*error\s*$/m.test(event)) {
-                throw new Error("La réponse a été interrompue. Veuillez réessayer.");
+                throw new Error(t("La réponse a été interrompue. Veuillez réessayer.", "The response was interrupted. Please try again."));
               }
               const content = chunk.choices?.[0]?.delta?.content ?? chunk.response;
               if (typeof content === "string" && content) {
@@ -276,7 +285,7 @@
           }
 
           if (!completed || !answer.textContent?.trim()) {
-            throw new Error("La réponse a été interrompue. Veuillez réessayer.");
+            throw new Error(t("La réponse a été interrompue. Veuillez réessayer.", "The response was interrupted. Please try again."));
           }
           history = getChatHistory([...history, { question, answer: answer.textContent }]);
         } finally {
@@ -288,7 +297,7 @@
         if (!answer?.textContent) answer?.remove();
         status.textContent = error instanceof Error && error.name === "Error"
           ? error.message
-          : "L’assistant est temporairement indisponible. Veuillez réessayer.";
+          : t("L’assistant est temporairement indisponible. Veuillez réessayer.", "The assistant is temporarily unavailable. Please try again.");
         if (!input.value) input.value = question;
       } finally {
         pending = false;

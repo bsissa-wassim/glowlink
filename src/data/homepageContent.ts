@@ -98,3 +98,73 @@ export const homepageContent = {
     ]
   }
 } as const;
+
+const englishHomepageContent = {
+  hero: {
+    title: "Your well-being begins before your care.",
+    description: "Body and mind, finally together. Our medical concierge service reimagines care through a holistic approach centred on mental well-being. Experience every procedure as a privileged moment, with personalised support and a relaxing stay by the Mediterranean.",
+  },
+  philosophy: {
+    title: "Our Holistic Philosophy & Concept (Mind-Body Connection)",
+    label: "Scientific & Emotional Foundations:",
+    description: "Preoperative anxiety and stress directly affect blood pressure, recovery time and healing. At GlowLink, we care for the mind to enhance the body and help you recover with peace of mind.",
+  },
+  journey: {
+    title: "Why GlowLink: The Stress-Free Patient Journey in 3 Steps",
+    steps: [
+      { icon: "conversation", title: "Step 1: Remote Mental Preparation (Before Your Trip)", description: "Before leaving Canada, the United States or Europe, patients receive personalised emotional support, including soothing WhatsApp audio, guided meditation and relaxation exercises, to ease anxiety about flying and surgery." },
+      { icon: "leaf", title: "Step 2: Your Serenity Day (On Arrival in Tunis)", description: "24 to 48 hours before your procedure: a day dedicated to unwinding at our partner centre, with gentle soothing neck, head and leg massages, aromatherapy and a comforting atmosphere." },
+      { icon: "gift", title: "Step 3: Comfort & Postoperative Follow-Up", description: "When you wake up: receive your Glow Box with an extra-soft blanket, soothing organic herbal teas, a silk sleep mask and a personalised letter, alongside gentle postoperative care adapted to support your recovery." },
+    ],
+  },
+  specialties: {
+    title: "A Wide Range of Procedures", header: "Procedure Category",
+    rows: ["Cosmetic & Plastic Surgery", "Dental Care & Surgery", "Ophthalmology"],
+  },
+  about: {
+    label: "ABOUT GLOWLINK",
+    title: "Combining strategic expertise and holistic care for an exceptional medical experience.",
+    description: "GlowLink was born from a deep conviction: medical travel should be a safe opportunity for transformation, with peace of mind throughout.",
+    founder: "Founded by Cheima Kochbati, the agency reflects a distinctive journey of excellence: ",
+    career: [
+      "01 / International — Clinical rigour : Training and initial experience as a nurse anesthetist in demanding surgical settings in Tunisia, Saudi Arabia and Dubai, building an unwavering commitment to clinical safety.*",
+      "02 / Canada — A global vision of health : A master's degree in health services management in Canada, supporting rigorous and meticulous coordination of patient journeys.*",
+      "03 / Today — The GlowLink commitment : Bringing together medical rigour and our holistic approach to well-being, mental preparation and aftercare to care for you as a whole.*",
+    ],
+  },
+  mission: {
+    label: "Our Mission", title: "Prepare your mind, enhance your body.",
+    paragraphs: [
+      "Because mental well-being directly influences healing and physical recovery, GlowLink created the first Stress-Free medical journey.",
+      "From your home in Canada or elsewhere around the world to your return from Tunisia, we combine surgical excellence with personalised emotional and relaxation support. We guide your medical journey and care for your peace of mind at every step.",
+    ],
+  },
+  network: {
+    title: "Safety & Quality", subtitle: "Clear guidance for your journey in Tunisia.",
+    rows: [
+      ["A Leading Medical Tourism Destination", "Tunisia is recognised worldwide for its surgical expertise, modern facilities and Mediterranean climate, offering a soothing setting for recovery."],
+      ["Highly Qualified Surgeons", "Carefully selected practitioners registered with the medical council, trained in Tunisia, France and internationally, with extensive clinical experience."],
+      ["Advanced Clinics & Practices", "Exclusive partnerships with accredited facilities equipped with high-end medical and aesthetic technologies and meeting international safety standards."],
+    ],
+  },
+  offers: {
+    title: "Exclusive Offers & Terms of Use",
+    referral: {
+      title: '1. "Glow & Share" Referral Programme:',
+      paragraphs: [
+        "Referrer offer (existing client): an e-Gift discount credit applied to your next stay or provided as a digital gift card.",
+        "Referred patient offer (new patient): a complimentary VIP upgrade on arrival at Tunis airport, including a premium private transfer and a personalised welcome.",
+      ],
+    },
+    duo: {
+      title: "2. Duo & Companion Offer (All Specialties):",
+      description: "A preferential discount on concierge services and VIP transfers for two people booking simultaneously, available for all procedures.",
+    },
+  },
+  publications: {
+    title: "Science Blog",
+    titles: ["How Reducing Preoperative Stress Speeds Up Healing", "The Mind-Body Connection: Why We Prepare Your Mind Before Your Stay in Tunis", "The Benefits of Gentle Preoperative Massage for the Nervous System"],
+  },
+} as const;
+
+export const getHomepageContent = (lang: "fr" | "en") => lang === "en" ? englishHomepageContent : homepageContent;

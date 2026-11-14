@@ -2,7 +2,12 @@
 import { Picture } from "astro:assets";
 import SectionHeading from "./SectionHeading.astro";
 import CareIcon from "./CareIcon.astro";
-import { homepageContent } from "../data/homepageContent";
+import { getHomepageContent } from "../data/homepageContent";
+import { getLanguage, createTranslator } from "../lib/i18n";
+
+const lang = getLanguage(Astro);
+const t = createTranslator(lang);
+const homepageContent = getHomepageContent(lang);
 import referralPhoto from "../assets/offers/parrainage.jpg";
 import duoPhoto from "../assets/offers/duo.jpg";
 import duoCouplePhoto from "../assets/offers/duo-couple.jpg";
@@ -16,16 +21,16 @@ const content = homepageContent.offers;
 // Photo license: https://www.pexels.com/license/
 const cards = [
   {
-    photos: [{ src: referralPhoto, alt: "Deux amies échangent autour d’un café dans un espace chaleureux." }],
+    photos: [{ src: referralPhoto, alt: t("Deux amies échangent autour d’un café dans un espace chaleureux.", "Two friends chatting over coffee in a welcoming space.") }],
     icon: "gift",
     title: content.referral.title,
     paragraphs: content.referral.paragraphs,
   },
   {
     photos: [
-      { src: duoPhoto, alt: "Deux personnes assises face à la mer partagent un moment de détente." },
-      { src: duoCouplePhoto, alt: "Un couple se promène main dans la main au bord de l’eau." },
-      { src: duoFamilyPhoto, alt: "Une mère et son fils marchent au bord de l’eau." },
+      { src: duoPhoto, alt: t("Deux personnes assises face à la mer partagent un moment de détente.", "Two people relaxing together overlooking the sea.") },
+      { src: duoCouplePhoto, alt: t("Un couple se promène main dans la main au bord de l’eau.", "A couple walking hand in hand along the shore.") },
+      { src: duoFamilyPhoto, alt: t("Une mère et son fils marchent au bord de l’eau.", "A mother and her son walking along the shore.") },
     ],
     icon: "people",
     title: content.duo.title,
@@ -80,9 +85,9 @@ const giftDecorations = [
             </div>
           </div>
           <div class="flex flex-1 flex-col items-start p-6 sm:p-8">
-            <CareIcon name={icon} class="mb-5 size-8 text-mint" />
-            <h3 class="font-sans text-3xl leading-snug tracking-tight">{title}</h3>
-            <ul class="mt-5 space-y-4 text-sm leading-relaxed text-white/90">
+            <CareIcon name={icon} class="mb-5 size-8 text-champagne" />
+            <h3 class="font-sans text-3xl leading-snug tracking-tight text-champagne">{title}</h3>
+            <ul class="mt-5 space-y-4 text-lg leading-relaxed text-white/90 sm:text-xl">
               {paragraphs.map((paragraph) => <li>{paragraph}</li>)}
             </ul>
           </div>

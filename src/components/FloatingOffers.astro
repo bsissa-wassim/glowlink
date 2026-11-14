@@ -1,16 +1,21 @@
 ---
-import { homepageContent } from "../data/homepageContent";
+import { getHomepageContent } from "../data/homepageContent";
+import { getLanguage, createTranslator } from "../lib/i18n";
+
+const lang = getLanguage(Astro);
+const t = createTranslator(lang);
+const homepageContent = getHomepageContent(lang);
 
 const { referral, duo } = homepageContent.offers;
 ---
 
-<aside data-floating-offers aria-label="Offres GlowLink" class="floating-offers">
+<aside data-floating-offers aria-label={t("Offres GlowLink", "GlowLink offers")} class="floating-offers">
   <div class="floating-offers-entrance">
     <div class="floating-offers-float">
       <button
         type="button"
         popovertarget="floating-offers-panel"
-        aria-label="Découvrir les offres GlowLink"
+        aria-label={t("Découvrir les offres GlowLink", "Discover GlowLink offers")}
         aria-haspopup="dialog"
         aria-controls="floating-offers-panel"
         aria-expanded="false"
@@ -19,15 +24,15 @@ const { referral, duo } = homepageContent.offers;
         <span class="floating-offers-gift">
           <img src="/icons/gift-3d.svg" alt="" aria-hidden="true" width="72" height="77" decoding="async" />
         </span>
-        <span class="floating-offers-badge" aria-hidden="true">Nos offres</span>
+        <span class="floating-offers-badge" aria-hidden="true">{t("Nos offres", "Our offers")}</span>
       </button>
     </div>
   </div>
 
   <div id="floating-offers-panel" popover="auto" role="dialog" aria-labelledby="floating-offers-heading" class="floating-offers-panel">
     <header class="floating-offers-header">
-      <h2 id="floating-offers-heading" class="font-sans text-2xl tracking-tight text-emerald-dark">Nos offres</h2>
-      <button type="button" popovertarget="floating-offers-panel" popovertargetaction="hide" aria-label="Fermer les offres" autofocus class="floating-offers-close">
+      <h2 id="floating-offers-heading" class="font-sans text-2xl tracking-tight text-emerald-dark">{t("Nos offres", "Our offers")}</h2>
+      <button type="button" popovertarget="floating-offers-panel" popovertargetaction="hide" aria-label={t("Fermer les offres", "Close offers")} autofocus class="floating-offers-close">
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="19" height="19">
           <path d="m6 6 12 12M6 18 18 6" stroke-linecap="round" />
         </svg>
@@ -41,7 +46,7 @@ const { referral, duo } = homepageContent.offers;
         <h3 class="text-sm leading-relaxed font-bold text-emerald-dark">{duo.title}</h3>
       </article>
       <a href="#offres" class="mt-5 inline-flex min-h-11 items-center gap-3 text-sm font-medium text-emerald-dark underline decoration-emerald/30 underline-offset-4 hover:decoration-emerald">
-        Voir les offres
+        {t("Voir les offres", "View offers")}
         <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.25" width="16" height="16">
           <path d="m5 15 10-10M5 5h10v10" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
@@ -84,14 +89,14 @@ const { referral, duo } = homepageContent.offers;
     font-size: 0.625rem;
     font-weight: 600;
     letter-spacing: 0.12em;
-    box-shadow: 0 2px 12px rgb(18 43 74 / 0.06);
+    box-shadow: 0 2px 12px rgb(18 42 69 / 0.06);
   }
 
   .floating-offers-gift {
     display: block;
     width: 60px;
     border-radius: 0.75rem;
-    filter: drop-shadow(0 6px 7px rgb(0 102 77 / 0.16));
+    filter: drop-shadow(0 6px 7px rgb(5 112 85 / 0.16));
   }
 
   .floating-offers-gift img {
@@ -121,7 +126,7 @@ const { referral, duo } = homepageContent.offers;
     border-radius: 1rem;
     background: white;
     color: var(--color-midnight);
-    box-shadow: 0 10px 44px rgb(18 43 74 / 0.14);
+    box-shadow: 0 10px 44px rgb(18 42 69 / 0.14);
     pointer-events: auto;
   }
 

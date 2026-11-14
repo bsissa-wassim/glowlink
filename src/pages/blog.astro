@@ -1,5 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getLanguage } from "../lib/i18n";
+
+export const prerender = false;
+const lang = getLanguage(Astro);
 ---
 
-<BaseLayout title="Blog" />
+<BaseLayout lang={lang} title="Blog" />

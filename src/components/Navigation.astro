@@ -1,7 +1,20 @@
 ---
+import { localizedHref } from "../lib/i18n";
+interface Props { lang?: "fr" | "en"; }
+const { lang = "fr" } = Astro.props;
+const translations: Record<string, string> = {
+  "Accueil": "Home", "À propos": "About", "Présentation": "Overview",
+  "Notre mission": "Our mission", "La fondatrice": "The founder",
+  "Chirurgie esthétique & plastique": "Cosmetic & plastic surgery",
+  "Soins & chirurgie dentaire": "Dental care & surgery", "Ophtalmologie": "Ophthalmology",
+  "Publication": "Publications", "Parcours patient": "Patient journey",
+  "Interventions": "Procedures",
+  "Notre concept": "Our concept",
+};
+const translate = (label: string) => lang === "en" ? translations[label] ?? label : label;
 const links = [
   { label: "Accueil", href: "/", preview: [] },
-  { label: "À propos", href: "/a-propos", preview: [{ label: "Présentation", href: "/#a-propos" }, { label: "Notre mission", href: "/#mission" }, { label: "La fondatrice", href: "/#fondatrice" }] },
+  { label: "À propos", href: "/a-propos", preview: [{ label: "Présentation", href: "/#a-propos" }, { label: "Notre mission", href: "/#mission" }, { label: "Notre concept", href: "/notre-concept" }, { label: "La fondatrice", href: "/la-fondatrice" }] },
   {
     label: "Interventions", href: "/#specialites",
     preview: [
@@ -23,45 +36,45 @@ const links = [
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
 
-<header class="relative z-30 min-h-[var(--header-height)] bg-white">
+<header class="relative z-30 min-h-[var(--header-height)] bg-midnight text-white">
   <div
     class="flex min-h-[var(--header-height)] w-full min-w-0 flex-col justify-center gap-2 px-4 py-2 md:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-center lg:gap-0"
   >
-    <span class="flex items-center justify-start gap-2 text-lg font-semibold tracking-tight text-emerald-dark lg:justify-self-start">
-      <span aria-hidden="true" class="size-6 rounded-full border border-emerald"></span>
+    <span class="flex items-center justify-start gap-2 text-lg font-semibold tracking-tight text-white lg:justify-self-start">
+      <span aria-hidden="true" class="size-6 rounded-full border border-sky"></span>
       Glowlink
     </span>
 
-    <nav aria-label="Navigation principale" class="mx-auto w-full max-w-sm font-normal md:max-w-none lg:w-auto">
+    <nav aria-label={lang === "en" ? "Main navigation" : "Navigation principale"} class="mx-auto w-full max-w-sm font-normal md:max-w-none lg:w-auto">
       <ul class="flex flex-wrap items-center justify-center lg:flex-nowrap lg:gap-1">
         {
           links.map(({ label, href, preview }) => {
             const isCurrentPage = currentPath === href;
-            const isActive = isCurrentPage || (href === "/publication" && preview.some((item) => item.href === currentPath));
+            const isActive = isCurrentPage || preview.some((item) => item.href === currentPath);
 
             return (
               <li class:list={[
                 "relative flex items-center justify-center border-b-2",
-                isActive ? "border-emerald" : "border-transparent",
+                isActive ? "border-sky" : "border-transparent",
               ]}>
                 <a
-                  href={currentPath === "/" && href.startsWith("/#") ? href.slice(1) : href}
+                  href={currentPath === "/" && href.startsWith("/#") ? href.slice(1) : localizedHref(href, lang)}
                   aria-current={isCurrentPage ? "page" : undefined}
                   class:list={[
-                    "flex min-h-11 items-center justify-center py-1.5 text-base font-normal motion-safe:transition-colors",
+                    "flex min-h-11 items-center justify-center py-1.5 text-lg font-normal focus-visible:outline-sky motion-safe:transition-colors sm:text-xl",
                     preview.length > 0 ? "pl-2 pr-1" : "px-3",
                     isActive
-                      ? "text-emerald-dark"
-                      : "text-midnight/70 hover:text-emerald",
+                      ? "text-sky"
+                      : "text-white/85 hover:text-sky",
                   ]}
                 >
-                  {label}
+                  {translate(label)}
                 </a>
                 {preview.length > 0 && (
                   <details data-nav-submenu class="group">
                     <summary
-                      aria-label={`Afficher le sous-menu ${label}`}
-                      class="flex min-h-11 w-8 cursor-pointer list-none items-center justify-center text-emerald-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald [&::-webkit-details-marker]:hidden"
+                      aria-label={lang === "en" ? `Show ${translate(label)} submenu` : `Afficher le sous-menu ${label}`}
+                      class="flex min-h-11 w-8 cursor-pointer list-none items-center justify-center text-sky focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky [&::-webkit-details-marker]:hidden"
                     >
                       <svg
                         aria-hidden="true"
@@ -75,14 +88,13 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
                       </svg>
                     </summary>
                     <div class:list={[
-                      "absolute top-full z-10 mt-1 w-52 max-w-[calc(100vw-2rem)] rounded-xl border border-mint bg-white p-3 shadow-[0_8px_24px_#00664d12]",
+                      "absolute top-full z-10 mt-1 w-52 max-w-[calc(100vw-2rem)] rounded-xl border border-sage/40 bg-white p-3 shadow-lg shadow-midnight/15",
                       href === "/a-propos" ? "right-0 md:left-0 md:right-auto" : "left-0",
                     ]}>
-                      <p class="px-2 pb-2 text-xs text-emerald-dark/70">{href === "/#specialites" ? "Nos spécialités" : href === "/publication" ? "Nos publications" : "Découvrir GlowLink"}</p>
-                      <ul aria-label={`Sous-menu ${label}`}>
+                      <ul aria-label={lang === "en" ? `${translate(label)} submenu` : `Sous-menu ${label}`}>
                         {preview.map(({ label: itemLabel, href: itemHref }) => (
-                          <li class="text-sm text-midnight/80">
-                            <a href={currentPath === "/" && itemHref.startsWith("/#") ? itemHref.slice(1) : itemHref} aria-current={currentPath === itemHref ? "page" : undefined} class="flex min-h-11 items-center rounded-lg px-2 py-2 hover:bg-mint/50 hover:text-emerald-dark">{itemLabel}</a>
+                          <li class="text-base text-midnight/80">
+                            <a href={currentPath === "/" && itemHref.startsWith("/#") ? itemHref.slice(1) : localizedHref(itemHref, lang)} aria-current={currentPath === itemHref ? "page" : undefined} class="flex min-h-11 items-center rounded-lg px-2 py-2 hover:bg-mint/50 hover:text-emerald-dark">{translate(itemLabel)}</a>
                           </li>
                         ))}
                       </ul>
@@ -95,6 +107,7 @@ const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
         }
       </ul>
     </nav>
+    <slot />
   </div>
 </header>
 

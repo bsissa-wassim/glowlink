@@ -1,0 +1,178 @@
+---
+import { Picture } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CareIcon from "../components/CareIcon.astro";
+import ScrollReveal from "../components/ScrollReveal.astro";
+import portrait from "../assets/fondatrice.jpeg";
+import clinical from "../assets/specialties/founder-care.webp";
+import wellness from "../assets/wellness/founder-serenity.webp";
+import { getLanguage, localizedHref } from "../lib/i18n";
+
+export const prerender = false;
+
+const lang = getLanguage(Astro);
+const copy = {
+  fr: {
+    title: "Cheimak — Fondatrice de GlowLink",
+    badge: "Excellence Médicale & Conciergerie Internationale",
+    paragraphs: [
+      "Infirmière anesthésiste diplômée depuis 2014, j’ai exercé au cœur des blocs opératoires à travers plusieurs pays avant de m’installer au Canada, où j’ai poursuivi mes études pour devenir conseillère en gestion. Ce double parcours — entre l’exigence médicale du terrain et le management stratégique nord-américain — est le fondement même de GlowLink.",
+      "Parce qu'une intervention chirurgicale engage autant le corps que l'esprit, j’ai conçu GlowLink pour offrir à une patientèle venue du Canada, des États-Unis et d'ailleurs une alliance parfaite entre rigueur médicale et sérénité absolue. Mon rôle dépasse la simple coordination : j’audite personnellement chaque clinique, sélectionne des chirurgiens d’exception et veille sur votre sécurité physique comme sur votre tranquillité mentale, de votre départ jusqu’à votre complet rétablissement en Tunisie.",
+    ],
+    checks: [
+      "Double expertise unique : Infirmière anesthésiste (diplômée depuis 2014) & Conseillère en gestion au Canada.",
+      "Sélection médicale rigoureuse : Audit direct des blocs opératoires, normes d'hygiène et chirurgiens partenaires.",
+      "Approche holistique & humaine : Prise en charge de votre santé physique et de votre bien-être mental à chaque étape.",
+    ],
+    vision: "Vision, Sécurité & Bien-Être",
+    slides: [
+      { title: "Notre Mission", text: "« Offrir à une patientèle nord-américaine (Canada & États-Unis) et internationale un accès privilégié à l'excellence chirurgicale en Tunisie, dans un cadre où la sécurité médicale rencontre la douceur d'un accompagnement sur-mesure. »" },
+      { title: "Notre Exigence Clinique", text: "« Grâce à mon expérience d'infirmière anesthésiste, chaque partenaire médical est sélectionné selon des protocoles stricts : accréditation des cliniques, normes internationales et suivi post-opératoire irréprochable. »" },
+      { title: "L'Équilibre Corps & Esprit", text: "« Votre tranquillité mentale est au cœur de notre conciergerie. Nous éliminons tout stress logistique afin que vous puissiez vous concentrer uniquement sur votre transformation et votre rétablissement. »" },
+    ],
+    pillarsTitle: "Les 6 Piliers de Confiance",
+    pillars: [
+      { title: "Expertise Bloc Opératoire", text: "Infirmière anesthésiste diplômée depuis 2014, maîtrisant les protocoles chirurgicaux et la sécurité des patients." },
+      { title: "Standards Nord-Américains & Internationaux", text: "Une compréhension parfaite des attentes du Canada, des États-Unis et de l'international, combinée à une maîtrise du réseau médical tunisien." },
+      { title: "Parcours International", text: "Une expérience clinique acquise dans plusieurs pays, garantissant une vision globale des meilleurs standards de soins." },
+      { title: "Conseillère en Gestion", text: "Une coordination administrative rigoureuse, une transparence totale et un accompagnement structuré de votre dossier." },
+      { title: "Santé Physique & Mentale", text: "Une approche bienveillante qui allie soins chirurgicaux de pointe et environnement propice à la sérénité mentale." },
+      { title: "Conciergerie VIP Sur-Mesure", text: "Organisation complète (sans billetterie aérienne) incluant accueil privé, hébergement 4*/5* et suivi post-opératoire." },
+    ],
+    ctaTitle: "Prêt(e) à échanger sur votre projet en toute sérénité ?",
+    ctaText: "Bénéficiez d'une première évaluation confidentielle et personnalisée.",
+    cta: "Demander mon évaluation gratuite",
+    portraitAlt: "Portrait de Cheimak, fondatrice de GlowLink",
+    clinicalAlt: "Une soignante à l’écoute d’une patiente dans un cabinet lumineux",
+    wellnessAlt: "Une femme médite sur une terrasse paisible face à la Méditerranée",
+    home: "Accueil", contact: "Nous contacter",
+  },
+  en: {
+    title: "Cheimak — Founder of GlowLink",
+    badge: "Medical Excellence & International Concierge Care",
+    paragraphs: [
+      "A qualified nurse anesthetist since 2014, I have worked in operating rooms across several countries before settling in Canada, where I continued my studies to become a management consultant. This dual background — combining hands-on clinical rigor with North American strategic management — is the very foundation of GlowLink.",
+      "Because surgery involves both body and mind, I created GlowLink to offer patients from Canada, the United States and beyond a perfect balance of medical rigor and complete peace of mind. My role goes beyond coordination: I personally audit each clinic, select exceptional surgeons and safeguard your physical safety and mental well-being, from your departure through your full recovery in Tunisia.",
+    ],
+    checks: [
+      "Unique dual expertise: Nurse anesthetist (qualified since 2014) & Management consultant in Canada.",
+      "Rigorous medical selection: Direct audits of operating rooms, hygiene standards and partner surgeons.",
+      "A holistic & human approach: Support for your physical health and mental well-being at every step.",
+    ],
+    vision: "Vision, Safety & Well-Being",
+    slides: [
+      { title: "Our Mission", text: "“To offer North American (Canada & United States) and international patients privileged access to surgical excellence in Tunisia, in a setting where medical safety meets the warmth of personalized care.”" },
+      { title: "Our Clinical Standards", text: "“Drawing on my experience as a nurse anesthetist, every medical partner is selected according to strict protocols: clinic accreditation, international standards and impeccable postoperative follow-up.”" },
+      { title: "Body & Mind in Balance", text: "“Your peace of mind is at the heart of our concierge service. We remove all logistical stress so you can focus entirely on your transformation and recovery.”" },
+    ],
+    pillarsTitle: "The 6 Pillars of Trust",
+    pillars: [
+      { title: "Operating Room Expertise", text: "A qualified nurse anesthetist since 2014, with expertise in surgical protocols and patient safety." },
+      { title: "North American & International Standards", text: "A thorough understanding of expectations in Canada, the United States and internationally, combined with in-depth knowledge of Tunisia’s medical network." },
+      { title: "International Experience", text: "Clinical experience gained across several countries, providing a global perspective on the highest standards of care." },
+      { title: "Management Consultant", text: "Rigorous administrative coordination, complete transparency and structured support for your case." },
+      { title: "Physical & Mental Health", text: "A compassionate approach combining advanced surgical care with an environment that supports mental peace." },
+      { title: "Bespoke VIP Concierge", text: "Complete organization (excluding airline ticketing), including private reception, 4*/5* accommodation and postoperative follow-up." },
+    ],
+    ctaTitle: "Ready to discuss your plans with complete peace of mind?",
+    ctaText: "Receive an initial confidential, personalized assessment.",
+    cta: "Request my free assessment",
+    portraitAlt: "Portrait of Cheimak, founder of GlowLink",
+    clinicalAlt: "A healthcare professional listening to a patient in a bright consultation room",
+    wellnessAlt: "A woman meditating on a peaceful terrace overlooking the Mediterranean",
+    home: "Home", contact: "Contact us",
+  },
+}[lang];
+const icons = ["monitor", "globe", "clinic", "briefcase", "leaf", "shield"] as const;
+const entrances = ["slide-left", "fade-up-scale", "slide-right"] as const;
+---
+
+<BaseLayout title={copy.title} hero lang={lang}>
+  <Fragment slot="head">
+    <meta name="description" content={copy.paragraphs[0]} />
+    <link rel="alternate" hreflang="en" href={new URL("/la-fondatrice?lang=en", Astro.url).href} />
+    <link rel="alternate" hreflang="fr" href={new URL("/la-fondatrice?lang=fr", Astro.url).href} />
+  </Fragment>
+  <section aria-labelledby="founder-heading" class="founder-hero relative isolate overflow-hidden bg-white py-14 sm:py-20">
+    <div class="founder-container grid items-center gap-9 md:grid-cols-[1.2fr_0.8fr] md:gap-12 lg:gap-20">
+      <div class="text-center md:text-left">
+        <p class="inline-block rounded-full border border-champagne/60 bg-champagne/10 px-5 py-3 text-sm font-semibold leading-relaxed text-midnight">{copy.badge}</p>
+        <h1 id="founder-heading" class="mt-6 text-4xl leading-[1.15] tracking-tight text-midnight sm:text-5xl">{copy.title}</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-midnight/80">{copy.paragraphs[0]}</p>
+        <div aria-hidden="true" class="mx-auto mt-8 h-px w-24 bg-champagne md:mx-0"></div>
+      </div>
+      <Picture src={portrait} alt={copy.portraitAlt} formats={["avif"]} fallbackFormat="webp" widths={[400, 640, 960]} sizes="(min-width: 1024px) 35vw, (min-width: 768px) 40vw, 100vw" loading="eager" fetchpriority="high" pictureAttributes={{class: "block mx-auto w-full max-w-md"}} class="block aspect-[4/5] w-full rounded-2xl object-cover object-top" />
+    </div>
+  </section>
+
+  <section id="founder-story" aria-labelledby="story-heading" class="scroll-mt-8 bg-white pb-14 sm:pb-20">
+    <div class="founder-container">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 id="story-heading" class="text-3xl tracking-tight text-midnight sm:text-4xl">{lang === "fr" ? "Une expertise au service de votre sérénité" : "Expertise dedicated to your peace of mind"}</h2>
+        <p class="mt-6 text-lg leading-relaxed text-midnight/80">{copy.paragraphs[1]}</p>
+      </div>
+      <ul class="mt-10 grid gap-6 border-t border-sky pt-9 lg:grid-cols-3">
+        {copy.checks.map((text) => <li class="flex gap-3 text-lg leading-relaxed text-midnight"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-1 size-6 shrink-0 text-champagne"><path d="m5 12 4 4L19 6" stroke-linecap="round" stroke-linejoin="round" /></svg><span>{text}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section data-reveal-children aria-labelledby="vision-heading" class="bg-sky/15 py-14 sm:py-20">
+    <div class="founder-container">
+      <h2 id="vision-heading" class="mb-10 text-center text-3xl tracking-tight text-midnight sm:text-4xl">{copy.vision}</h2>
+      <div data-stagger-reveal data-reveal-stagger="140" class="grid gap-6 lg:grid-cols-3">
+        {copy.slides.map((slide, index) => (
+          <article data-reveal-item data-reveal-effect={entrances[index]} class="rounded-2xl bg-midnight p-7 text-white sm:p-8">
+            <span aria-hidden="true" class="text-sm font-semibold tracking-widest text-sky">0{index + 1}</span>
+            <h3 class="mt-4 text-2xl leading-tight text-champagne">{slide.title}</h3>
+            <p class="mt-5 text-lg leading-relaxed text-white/90">{slide.text}</p>
+          </article>
+        ))}
+      </div>
+      <div data-stagger-reveal class="mt-8 grid gap-6 sm:grid-cols-2">
+        <Picture src={clinical} alt={copy.clinicalAlt} formats={["avif"]} fallbackFormat="webp" widths={[400, 640, 960]} sizes="(min-width: 768px) 45vw, 100vw" loading="lazy" pictureAttributes={{class: "block overflow-hidden rounded-2xl", "data-reveal-item": true, "data-reveal-effect": "scale"}} class="aspect-[16/9] w-full object-cover" />
+        <Picture src={wellness} alt={copy.wellnessAlt} formats={["avif"]} fallbackFormat="webp" widths={[400, 640, 960]} sizes="(min-width: 768px) 45vw, 100vw" loading="lazy" pictureAttributes={{class: "block overflow-hidden rounded-2xl", "data-reveal-item": true, "data-reveal-effect": "scale"}} class="aspect-[16/9] w-full object-cover" />
+      </div>
+    </div>
+  </section>
+
+  <section data-reveal-children aria-labelledby="pillars-heading" class="bg-white py-14 sm:py-20">
+    <div class="founder-container">
+      <h2 id="pillars-heading" class="text-center text-3xl tracking-tight text-midnight sm:text-4xl">{copy.pillarsTitle}</h2>
+      <div data-stagger-reveal data-reveal-stagger="140" class="mt-12 grid gap-x-[38px] sm:grid-cols-2 lg:grid-cols-3">
+        {copy.pillars.map((pillar, index) => (
+          <article data-reveal-item data-reveal-effect={entrances[index % entrances.length]} class="flex flex-col items-center border-t border-sky py-9 text-center lg:py-12">
+            <span class="flex size-16 items-center justify-center rounded-full bg-emerald text-white"><CareIcon name={icons[index]} class="size-8" /></span>
+            <h3 class="mt-6 text-2xl leading-snug text-midnight">{pillar.title}</h3>
+            <p class="mt-4 text-base leading-relaxed text-midnight/80">{pillar.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="assessment-heading" class="bg-sky px-5 py-16 text-center text-midnight sm:py-20">
+    <div class="mx-auto max-w-4xl">
+      <h2 id="assessment-heading" class="text-3xl leading-tight tracking-tight sm:text-5xl">{copy.ctaTitle}</h2>
+      <p class="mt-6 text-lg leading-relaxed sm:text-xl">{copy.ctaText}</p>
+      <a href="mailto:info.glowlink@gmail.com" class="mt-9 inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-emerald px-7 py-4 text-lg font-semibold text-white hover:bg-midnight motion-safe:transition-colors">{copy.cta}<span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+  <footer class="bg-midnight px-5 py-10 text-white">
+    <div class="mx-auto flex max-w-[120rem] flex-col items-center justify-between gap-6 sm:flex-row">
+      <a href={localizedHref("/", lang)} class="text-2xl font-semibold">GlowLink</a>
+      <nav aria-label={lang === "fr" ? "Pied de page" : "Footer"} class="flex flex-wrap justify-center gap-6 text-lg">
+        <a href={localizedHref("/", lang)} class="hover:text-sky">{copy.home}</a>
+        <a href={localizedHref("/#contact", lang)} class="hover:text-sky">{copy.contact}</a>
+        <a href="mailto:info.glowlink@gmail.com" class="break-all hover:text-sky">info.glowlink@gmail.com</a>
+      </nav>
+    </div>
+  </footer>
+  <ScrollReveal />
+</BaseLayout>
+
+<style>
+  .founder-container { width: 100%; max-width: 80rem; margin-inline: auto; padding-inline: clamp(1rem, 3vw, 3rem); }
+  h1, h2, h3 { text-wrap: balance; }
+  .founder-hero::before { content: ""; position: absolute; z-index: -1; top: -12rem; left: -14rem; width: 42rem; height: 42rem; border-radius: 50%; background: color-mix(in srgb, var(--color-sky) 18%, white); }
+</style>

@@ -1,9 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getLanguage } from "../lib/i18n";
+
+export const prerender = false;
+const lang = getLanguage(Astro);
 import ContactSection from "../components/ContactSection.astro";
 ---
 
-<BaseLayout title="Contact">
+<BaseLayout lang={lang} title="Contact">
   <div class="mt-6">
     <ContactSection />
   </div>

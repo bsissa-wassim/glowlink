@@ -1,11 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-emerald: #007f60;
-  --color-emerald-dark: #00664d;
-  --color-mint: #ddf2ed;
-  --color-midnight: #122b4a;
+  --color-emerald: #057055;
+  --color-emerald-dark: var(--color-emerald);
+  --color-midnight: #122A45;
+  --color-sky: #A7D6E7;
+  --color-mint: var(--color-sky);
+  --color-white: #FFFFFF;
+  --color-sage: #7A9D96;
+  --color-champagne: #C6A15B;
   --font-sans: Arial, Helvetica, sans-serif;
+  --font-heading: "DM Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+[role="heading"] {
+  font-family: var(--font-heading);
 }
 
 @layer base {
@@ -39,7 +54,7 @@
   body {
     margin: 0;
     min-width: 0;
-    background: #ffffff;
+    background: var(--color-white);
     color: var(--color-midnight);
     font-family: var(--font-sans);
     font-weight: 500;

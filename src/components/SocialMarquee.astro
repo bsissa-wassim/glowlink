@@ -1,12 +1,15 @@
 ---
 import { socialAccounts } from "../config/social";
+import { getLanguage, createTranslator } from "../lib/i18n";
+
+const t = createTranslator(getLanguage(Astro));
 ---
 
-<section aria-label="Retrouvez Glowlink sur les réseaux sociaux" tabindex="0" class="social-banner w-full text-white">
+<section aria-label={t("Retrouvez Glowlink sur les réseaux sociaux", "Find Glowlink on social media")} tabindex="0" class="social-banner w-full text-white">
   <div class="social-content">
     <div class="social-copy">
       <h2>
-        Suivez-nous sur{" "}
+        {t("Suivez-nous sur", "Follow us on")}{" "}
         <span class="social-platforms">
           {socialAccounts.map(({ id, label, url }, index) => {
             const Tag = url ? "a" : "span";

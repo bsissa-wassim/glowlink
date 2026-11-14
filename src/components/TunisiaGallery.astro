@@ -3,12 +3,15 @@ import { Picture } from "astro:assets";
 import sidiBouSaid from "../assets/tunisia/sidi-bou-said.jpg";
 import mediterranean from "../assets/tunisia/mediterranee.jpg";
 import hotelGammarth from "../assets/tunisia/hotel-gammarth.jpg";
+import { getLanguage, createTranslator } from "../lib/i18n";
+
+const t = createTranslator(getLanguage(Astro));
 
 // Photo licenses: https://www.pexels.com/license/ and https://unsplash.com/license.
 const photographs = [
   {
     src: sidiBouSaid,
-    alt: "Ruelle pavée de Sidi Bou Saïd, façades blanches, portes bleues et végétation grimpante.",
+    alt: t("Ruelle pavée de Sidi Bou Saïd, façades blanches, portes bleues et végétation grimpante.", "A cobbled street in Sidi Bou Said with white facades, blue doors and climbing plants."),
     label: "Sidi Bou Saïd",
     credit: "Reyyan",
     provider: "Pexels",
@@ -19,8 +22,8 @@ const photographs = [
   },
   {
     src: mediterranean,
-    alt: "Eaux turquoise de la Méditerranée et criques rocheuses sur le littoral de Bizerte.",
-    label: "La Méditerranée",
+    alt: t("Eaux turquoise de la Méditerranée et criques rocheuses sur le littoral de Bizerte.", "Turquoise Mediterranean waters and rocky coves along the coast of Bizerte."),
+    label: t("La Méditerranée", "The Mediterranean"),
     credit: "Ismail Saidi",
     provider: "Pexels",
     source: "https://www.pexels.com/photo/rocks-on-sea-shore-15934829/",
@@ -30,7 +33,7 @@ const photographs = [
   },
   {
     src: hotelGammarth,
-    alt: "Terrasse de l’hôtel Mövenpick Gammarth avec une table, des fauteuils et une vue sur la baie de La Marsa.",
+    alt: t("Terrasse de l’hôtel Mövenpick Gammarth avec une table, des fauteuils et une vue sur la baie de La Marsa.", "The terrace of the Mövenpick Gammarth hotel with a table, armchairs and views over La Marsa bay."),
     label: "Mövenpick Gammarth, La Marsa",
     credit: "Geoffrey Arduini",
     provider: "Unsplash",
@@ -68,7 +71,7 @@ const sizes = "(min-width: 1024px) 512px, (min-width: 768px) 50vw, (min-width: 6
           class="block size-full object-cover"
         />
         <figcaption class="sr-only">
-          {label}. Photographie : {credit}, <a href={source}>{provider}</a>.
+          {label}. {t("Photographie :", "Photography:")} {credit}, <a href={source}>{provider}</a>.
         </figcaption>
       </figure>
     ))}

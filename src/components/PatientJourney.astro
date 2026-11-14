@@ -1,30 +1,36 @@
 ---
 import CareIcon from "./CareIcon.astro";
 import SectionHeading from "./SectionHeading.astro";
-import { homepageContent } from "../data/homepageContent";
+import { getHomepageContent } from "../data/homepageContent";
+import { getLanguage } from "../lib/i18n";
+
+const lang = getLanguage(Astro);
+const homepageContent = getHomepageContent(lang);
 
 const content = homepageContent.journey;
 ---
 
-<section id="parcours-patient" data-reveal-children aria-labelledby="journey-heading" class="mx-auto max-w-5xl scroll-mt-8 px-4 py-12 sm:px-6 sm:py-20">
-  <SectionHeading id="journey-heading" title={content.title} tone="midnight" />
-  <ol class="mt-10 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-5">
+<section id="parcours-patient" data-reveal-children aria-labelledby="journey-heading" class="scroll-mt-8 py-14 sm:py-20">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6">
+    <SectionHeading id="journey-heading" title={content.title} tone="midnight" centered />
+  </div>
+  <ol class="mx-auto mt-10 grid max-w-[120rem] gap-[38px] px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-3 lg:px-8">
     {content.steps.map(({ icon, title, description }) => (
       <li data-journey-step class="relative min-w-0">
-        <div class="journey-card h-full rounded-2xl border border-midnight/10 bg-mint/20 p-6 sm:p-7">
+        <div class="journey-card relative isolate flex h-full flex-col overflow-hidden rounded-[20px]">
         <details open class="group">
-          <summary class="journey-summary relative cursor-pointer list-none focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-midnight">
-            <span class="mb-5 flex size-12 items-center justify-center rounded-xl bg-white text-emerald group-open:bg-midnight group-open:text-white motion-safe:transition-colors">
-              <CareIcon name={icon} />
+          <summary class="journey-summary relative cursor-pointer list-none focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-current">
+            <span class="journey-icon mb-8 flex items-center justify-center rounded-3xl">
+              <CareIcon name={icon} class="size-10 xl:size-12 2xl:size-16" />
             </span>
-            <h3 class="flex items-start justify-between gap-3 text-xl font-bold tracking-tight text-midnight">
+            <h3 class="flex items-start justify-between gap-3 text-2xl leading-[1.2] font-bold tracking-tight xl:text-3xl 2xl:text-4xl">
               {title}
               <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.25" class="mt-1 size-4 shrink-0 group-open:rotate-180 motion-safe:transition-transform">
                 <path d="m5 7.5 5 5 5-5" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </h3>
           </summary>
-          <p class="mt-4 text-sm leading-relaxed text-midnight/90">{description}</p>
+          <p class="journey-description mt-7 border-t pt-7 text-lg leading-relaxed sm:text-xl">{description}</p>
         </details>
         </div>
       </li>
@@ -33,33 +39,55 @@ const content = homepageContent.journey;
 </section>
 
 <style>
+  .journey-card {
+    min-height: clamp(32rem, 38vw, 42rem);
+    padding: clamp(1.5rem, 2.2vw, 3rem);
+    background: var(--color-emerald);
+    color: var(--color-white);
+  }
+
+  .journey-icon {
+    width: clamp(5rem, 8vw, 8.75rem);
+    height: clamp(5rem, 8vw, 8.75rem);
+    background: var(--color-white);
+    color: var(--color-emerald);
+  }
+
+  .journey-description {
+    border-color: color-mix(in srgb, currentColor 20%, transparent);
+  }
+
+  .journey-card::before,
+  .journey-card::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    bottom: -22%;
+    left: -30%;
+    width: 140%;
+    height: 56%;
+    border-radius: 50% 50% 38% 62% / 65% 45% 55% 35%;
+    background: var(--color-white);
+    opacity: 0.12;
+    transform: rotate(12deg);
+    pointer-events: none;
+  }
+
+  .journey-card::after {
+    bottom: -30%;
+    left: 10%;
+    transform: rotate(-18deg);
+  }
+
+  @media (max-width: 47.999rem) {
+    .journey-card {
+      min-height: 29rem;
+    }
+  }
+
   .journey-summary::-webkit-details-marker { display: none; }
 
-  [data-journey-step]:focus-within .journey-card {
-    box-shadow: 0 14px 32px rgb(18 43 74 / 0.08);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    [data-journey-step]:hover .journey-card {
-      box-shadow: 0 14px 32px rgb(18 43 74 / 0.08);
-    }
-  }
-
   @media (prefers-reduced-motion: no-preference) {
-    .journey-card {
-      transition: transform 280ms ease, box-shadow 280ms ease;
-    }
-
-    [data-journey-step]:focus-within .journey-card {
-      transform: translateY(-8px);
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      [data-journey-step]:hover .journey-card {
-        transform: translateY(-8px);
-      }
-    }
-
     [data-journey-reveal="pending"] {
       opacity: 0;
       transform: translate3d(-44px, 0, 0);

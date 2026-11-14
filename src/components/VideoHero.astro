@@ -20,7 +20,7 @@ const { title, eyebrow, description } = Astro.props;
         {title}
       </h1>
       {description && (
-        <h2 class="max-w-md text-sm leading-relaxed font-medium text-white sm:text-base xl:w-[52rem] xl:max-w-none xl:text-balance">
+        <h2 class="max-w-md text-lg leading-relaxed font-medium text-white sm:text-xl xl:w-[52rem] xl:max-w-none xl:text-balance">
           {description}
         </h2>
       )}
@@ -34,8 +34,8 @@ const { title, eyebrow, description } = Astro.props;
   <div class="video-hero-media relative min-w-0 overflow-hidden">
     <video
       data-hero-video
-      data-desktop-src="/media/massage-desktop.mp4"
-      data-mobile-src="/media/massage-mobile.mp4"
+      data-desktop-src="/media/hero-desktop.mp4"
+      data-mobile-src="/media/hero-mobile.mp4"
       poster="/media/massage-poster.webp"
       width="1920"
       height="1080"
@@ -70,8 +70,8 @@ const { title, eyebrow, description } = Astro.props;
     border-radius: 42% 58% 65% 35% / 48% 38% 62% 52%;
     background: radial-gradient(
       ellipse at 35% 35%,
-      rgb(221 242 237 / 0.06),
-      rgb(0 102 77 / 0.1) 50%,
+      rgb(167 214 231 / 0.06),
+      rgb(5 112 85 / 0.1) 50%,
       transparent 74%
     );
     pointer-events: none;
@@ -101,9 +101,9 @@ const { title, eyebrow, description } = Astro.props;
     inset: 0;
     background: linear-gradient(
       160deg,
-      rgb(0 127 96 / 0.24),
+      rgb(5 112 85 / 0.24),
       transparent 60%,
-      rgb(0 102 77 / 0.12)
+      rgb(5 112 85 / 0.12)
     );
     pointer-events: none;
   }

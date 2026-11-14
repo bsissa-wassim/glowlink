@@ -1,5 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getLanguage, createTranslator } from "../lib/i18n";
+
+export const prerender = false;
+const lang = getLanguage(Astro);
+const t = createTranslator(lang);
 ---
 
-<BaseLayout title="Parcours patient" />
+<BaseLayout lang={lang} title={t("Parcours patient", "Patient journey")} />

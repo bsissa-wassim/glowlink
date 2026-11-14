@@ -3,7 +3,11 @@ import { Picture } from "astro:assets";
 import SectionHeading from "./SectionHeading.astro";
 import CareIcon from "./CareIcon.astro";
 import meditationBackground from "../assets/wellness/meditation.jpg";
-import { homepageContent } from "../data/homepageContent";
+import { getHomepageContent } from "../data/homepageContent";
+import { getLanguage } from "../lib/i18n";
+
+const lang = getLanguage(Astro);
+const homepageContent = getHomepageContent(lang);
 
 // Photo: Los Muertos Crew / Pexels, https://www.pexels.com/photo/woman-meditating-outdoors-8391701/
 // License: https://www.pexels.com/license/
@@ -29,16 +33,16 @@ const content = homepageContent.philosophy;
     />
   </div>
   <div class="relative mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-20">
-    <SectionHeading id="philosophy-heading" title={content.title} />
-    <table aria-labelledby="philosophy-heading" class="mt-8 w-full text-left">
+    <SectionHeading id="philosophy-heading" title={content.title} centered />
+    <table aria-labelledby="philosophy-heading" class="mt-8 w-full text-center">
       <tbody>
         <tr>
           <td>
-            <h3 class="flex items-center gap-3 text-lg font-bold text-emerald-dark">
+            <h3 class="flex items-center justify-center gap-3 text-lg font-bold text-emerald-dark">
               <CareIcon name="brain" class="size-6 shrink-0 text-emerald" />
               {content.label}
             </h3>
-            <p class="mt-4 max-w-prose text-sm leading-relaxed text-midnight/90 sm:text-base">{content.description}</p>
+            <p class="mx-auto mt-4 max-w-prose text-lg leading-relaxed text-midnight/90 sm:text-xl">{content.description}</p>
           </td>
         </tr>
       </tbody>

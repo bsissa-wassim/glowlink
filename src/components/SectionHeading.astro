@@ -4,18 +4,19 @@ interface Props {
   eyebrow?: string;
   title: string;
   tone?: "emerald" | "midnight";
+  centered?: boolean;
 }
 
-const { id, eyebrow, title, tone = "emerald" } = Astro.props;
+const { id, eyebrow, title, tone = "emerald", centered = false } = Astro.props;
 ---
 
-<header class="max-w-3xl">
-  {eyebrow && <p class="mb-4 text-xs font-medium tracking-[0.16em] text-emerald uppercase">{eyebrow}</p>}
+<header class:list={["max-w-3xl", { "mx-auto text-center": centered }]}>
+  {eyebrow && <p class="mb-4 border-l-2 border-champagne pl-3 text-xs font-medium tracking-[0.16em] text-emerald uppercase">{eyebrow}</p>}
   <h2 id={id} class:list={["font-sans text-4xl leading-[1.12] tracking-tight sm:text-5xl", tone === "midnight" ? "text-midnight" : "text-emerald-dark"]}>
     {title}
   </h2>
   {Astro.slots.has("default") && (
-    <div class="mt-5 max-w-xl text-sm leading-relaxed text-midnight/90 sm:text-base">
+    <div class:list={["mt-5 max-w-xl text-lg leading-relaxed text-midnight/90 sm:text-xl", { "mx-auto": centered }]}>
       <slot />
     </div>
   )}
