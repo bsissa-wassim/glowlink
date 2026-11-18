@@ -14,7 +14,7 @@ const translations: Record<string, string> = {
 const translate = (label: string) => lang === "en" ? translations[label] ?? label : label;
 const links = [
   { label: "Accueil", href: "/", preview: [] },
-  { label: "À propos", href: "/a-propos", preview: [{ label: "Présentation", href: "/#a-propos" }, { label: "Notre mission", href: "/#mission" }, { label: "Notre concept", href: "/notre-concept" }, { label: "La fondatrice", href: "/la-fondatrice" }] },
+  { label: "À propos", href: "/a-propos", preview: [{ label: "Notre concept", href: "/notre-concept" }, { label: "La fondatrice", href: "/la-fondatrice" }] },
   {
     label: "Interventions", href: "/#specialites",
     preview: [
